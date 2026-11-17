@@ -11,13 +11,13 @@ st.warning("⚖️ **२. कर्मण्येवाधिकारस्त
 st.success("⚔️ **३. युद्धाय कृतनिश्चयः** (Ek Yoddha ki tarah bina emotions ke apna Dharm nibhaungi)")
 
 st.info('✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
+
 st.write("---")
 
 # Quick Links Section (Aapke dusre apps yahan link honge)
 st.markdown("### 🔗 Pritika's Master Tools")
 col1, col2 = st.columns(2)
 with col1:
-    # Aapka live news app link
     st.link_button("📰 Open Veer Market News", "https://veer-market-news.streamlit.app", use_container_width=True)
 with col2:
     st.link_button("🔎 Open Veer Master Scanner", "https://trading-scanner--veer-crty7rxlsxven92q2buuiy.streamlit.app/", use_container_width=True)
@@ -40,8 +40,9 @@ pm3 = st.checkbox("3. Global Cues & Pre-Open: Gift Nifty aur 9:08 AM ka settleme
 pm4 = st.checkbox("4. Tech Ready: Veer Master Scanner aur Dhan Power Scalper login karke ready hain.")
 
 st.write("---")
+
 # ==========================================
-# STAGE 1.5: MASTER POWER SUMMARY (DATA COMBINER)
+# STAGE 1.5: MASTER POWER SUMMARY 
 # ==========================================
 st.markdown("## 🧠 STAGE 1.5: Master Power Summary")
 st.write("Apne teeno tools ka result yahan dalein aur aaj ka 'Power Note' banayein:")
@@ -59,24 +60,17 @@ with st.expander("⚡ Generate Today's Trading Power Note", expanded=True):
     if st.button("🔥 Generate Power Note"):
         if fii_data == "Select..." or scanner_data == "Select..." or breath_data == "Select...":
             st.error("Kripya teeno tools ka result select karein!")
-        
-        # Super Bullish Setup
         elif fii_data == "Bullish (Dono Buy)" and scanner_data == "CE (Long Setup)" and breath_data == "Positive (+)":
             st.success("🚀 **POWER NOTE (HIGH CONVICTION):** Teeno tools ek hi disha (BULLISH) mein ishara kar rahe hain! Aaj apne Zone par aate hi NORMAL/FULL quantity ke sath Call (CE) ka trade lein. Trend aapka dost hai.")
-        
-        # Super Bearish Setup
         elif fii_data == "Bearish (Dono Sell)" and scanner_data == "PE (Short Setup)" and breath_data == "Negative (-)":
             st.error("📉 **POWER NOTE (HIGH CONVICTION):** Teeno tools (BEARISH) ishara kar rahe hain! Aaj bounce aane par apne Zone se NORMAL/FULL quantity ke sath Put (PE) ka trade lein. Market weak hai.")
-        
-        # Trapping / Sideways Setup
         elif fii_data == "Mixed (Takkar)" or breath_data == "Neutral" or scanner_data == "No Clear Setup":
             st.warning("⚠️ **POWER NOTE (CAUTION):** Data aapas mein match nahi kar raha hai! Market confused hai aur Trapping (SL Hunting) ho sakti hai. Aaj ya toh TRADE NA LEIN, ya sirf HALF (Aadhi) Quantity mein trade karein.")
-        
-        # Contradiction (Khilaf)
         else:
             st.info("⚖️ **POWER NOTE (WAIT & WATCH):** Tools ek dusre ke khilaf (opposite) bol rahe hain. Aise din option buyer ka paisa zero hota hai. Jab tak Data ek taraf na mude, apne haath baandh kar rakhein!")
 
 st.write("---")
+
 # STAGE 2: LIVE MARKET ROUTINE
 st.subheader("🎯 STAGE 2: Live Market Entry (Buy/Sell Dabaane Se Pehle)")
 
@@ -103,48 +97,81 @@ st.write("---")
 st.subheader("📈 Aapka Discipline Score")
 st.progress(percentage)
 st.write(f"**Score: {percentage}%**")
-
 st.write("---")
 
-# Logic: Can Pritika Trade?
 if percentage == 100:
-    st.success("🟢 100% APPROVED: Excellent Pritika! Sab kuch perfect hai. Aap apna trade execute kar sakti hain. Happy Trading!")
+    st.success("🟢 100% APPROVED: Excellent! Sab kuch perfect hai. Aap apna trade execute kar sakte hain. Happy Trading!")
     st.balloons()
 else:
     st.error("🔴 DO NOT TRADE! Aapka homework ya rules abhi poore nahi hain.")
     st.write(f"Trade lene ke liye abhi **{total - completed} rules** check karna bache hain.")
 
 # ==========================================
-# STAGE 3: NAYA LOT SIZE CALCULATOR
+# STAGE 3: TARGET ENFORCER & EXACT TAX CALCULATOR
 # ==========================================
 st.markdown("---")
-st.markdown("## 🛡️ STAGE 3: Position Sizing (Capital Protector)")
-st.write("Trade ka Buy/Sell button dabane se pehle apni Risk limit aur Lot Size check karein:")
+st.markdown("## 🛡️ STAGE 3: Target Enforcer & Position Sizing")
+st.write("Trade ka Buy/Sell button dabane se pehle Exact Brokerage aur apna Target check karein:")
 
-with st.expander("🧮 Calculate Safe Lots / Quantity Before Entry", expanded=True):
-    col1, col2, col3 = st.columns(3)
+with st.expander("🧮 Calculate Safe Lots, Exact Taxes & Target", expanded=True):
+    col1, col2 = st.columns(2)
     
     with col1:
         risk_amount = st.number_input("Max Loss (₹)", min_value=100, value=1000, step=100)
-    with col2:
         sl_points = st.number_input("Stop Loss (Points)", min_value=1, value=20, step=1)
-    with col3:
-        # HINT HATA DIYA HAI: Aap apna naya lot size directly is dabbe mein type kar sakti hain!
-        lot_size = st.number_input("Current Lot Size Likhien", min_value=1, value=15, step=1)
+    with col2:
+        lot_size = st.number_input("Current Lot Size", min_value=1, value=15, step=1)
+        buy_price = st.number_input("Option Buy Price (Premium)", min_value=1, value=300, step=1)
     
-    if st.button("Calculate Safe Quantity"):
-        if sl_points > 0:
+    if st.button("Calculate Exact Tax & Target"):
+        if sl_points > 0 and buy_price > 0:
             ideal_qty = int(risk_amount / sl_points)
             safe_lots = ideal_qty // lot_size
             final_qty = safe_lots * lot_size
             
-            st.success(f"🛑 Aapka Stop Loss: **{sl_points} points** | Max Risk: **₹{risk_amount}**")
-            
             if safe_lots > 0:
-                st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**)")
-                st.warning("⚠️ Warning: Agar isse zyada Lot liye, toh risk limit cross ho jayegi. Rule break mat karna!")
+                st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**) | Max Loss Rule: **₹{risk_amount}**")
+                
+                # ---- EXACT BROKERAGE & TAX CALCULATION (NSE OPTIONS) ----
+                target_points = sl_points * 2  # 1:2 Risk Reward Ratio
+                sell_price = buy_price + target_points
+                
+                buy_turnover = buy_price * final_qty
+                sell_turnover = sell_price * final_qty
+                total_turnover = buy_turnover + sell_turnover
+                
+                # 1. Brokerage (Dhan Standard: ₹40 round-trip per executed order)
+                brokerage = 40
+                
+                # 2. STT (Oct 2024 Rule: 0.1% on Sell Turnover for Options)
+                stt = sell_turnover * 0.001
+                
+                # 3. Exchange Charges (NSE Options: 0.03503% on Total Turnover)
+                exchange_charges = total_turnover * 0.0003503
+                
+                # 4. SEBI Charges (0.0001% on Total Turnover)
+                sebi_charges = total_turnover * 0.000001
+                
+                # 5. Stamp Duty (0.003% on Buy Turnover)
+                stamp_duty = buy_turnover * 0.00003
+                
+                # 6. GST (18% on Brokerage + Exchange + SEBI)
+                gst = (brokerage + exchange_charges + sebi_charges) * 0.18
+                
+                total_taxes = round(brokerage + stt + exchange_charges + sebi_charges + stamp_duty + gst, 2)
+                gross_profit = target_points * final_qty
+                net_profit = round(gross_profit - total_taxes, 2)
+                
+                st.markdown("### 💸 Exact Govt. Tax & Brokerage Hisaab")
+                bc1, bc2, bc3 = st.columns(3)
+                bc1.metric("Brokerage + All Taxes", f"₹{total_taxes}")
+                bc2.metric("Target (1:2)", f"{target_points} Pts (at ₹{sell_price})")
+                bc3.metric("Net Profit (In Hand)", f"₹{net_profit}")
+                
+                st.warning(f"🚨 **TARGET ENFORCER:** Aapko trade strictly **₹{sell_price}** par hi bechna hai. Sarkar (STT, GST) aur Broker aapse iss trade par **₹{total_taxes}** tax katenge. Agar chhote profit mein nikal gaye, toh tax bharne ke baad jeb mein kuch nahi bachega. **Hold till Target!**")
+                
             else:
-                st.error("🚨 DO NOT TRADE! Aapka Stop Loss itna bada hai ki is Risk limit mein 1 Lot bhi nahi aayega. Ya toh chhote SL wala trade dhoondein, ya trade chhod dein.")
+                st.error("🚨 DO NOT TRADE! Aapka Stop Loss itna bada hai ki is Risk limit mein 1 Lot bhi nahi aayega.")
 
 # ==========================================
 # STAGE 4: MARKET MAUSAM & DIARY
@@ -178,6 +205,6 @@ with col4:
         submitted = st.form_submit_button("Save Trade Record")
         if submitted:
             if "Rule Followed" in reason:
-                st.success(f"Good Job Pritika! Rule follow kiya. PnL: ₹{trade_pnl}")
+                st.success(f"Good Job! Rule follow kiya. PnL: ₹{trade_pnl}")
             else:
                 st.error(f"Rule Break! Isliye loss ya stress hua. PnL: ₹{trade_pnl}. Kal se galti nahi dohrani hai.")
