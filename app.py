@@ -16,9 +16,9 @@ with col1:
     # Aapka live news app link
     st.link_button("📰 Open Veer Market News", "https://veer-market-news.streamlit.app", use_container_width=True)
 with col2:
-    # DHYAN DEIN: Niche wali line mein apna asli Scanner ka link daalein
     st.link_button("🔎 Open Veer Master Scanner", "https://trading-scanner--veer-crty7rxlsxven92q2buuiy.streamlit.app/", use_container_width=True)
-st.link_button("🌟 Open Market Breath Engine", "https://colab.research.google.com/drive/1ds5WtQaIqTkKUeqGPGXQSB9ZZLxmG_fk?usp=sharing", use_container_width=True)
+    st.link_button("🌟 Open Market Breath Engine", "https://colab.research.google.com/drive/1ds5WtQaIqTkKUeqGPGXQSB9ZZLxmG_fk?usp=sharing", use_container_width=True)
+
 st.write("---")
 
 # STAGE 1: PRE-MARKET ROUTINE
@@ -26,7 +26,6 @@ st.subheader("🌙 STAGE 1: Pre-Market & Data Analysis")
 
 pm1 = st.checkbox("1. FII/DII Data & Option Chain: Maine Veer News App mein aaj ka data analyze kar liya hai.")
 if pm1:
-    # TIK karne par flash hone wala IMP NOTE
     st.warning("📌 IMP NOTE: Dhyan rahe! Agar FII aur DII dono Futures bech rahe hain, toh Call (CE) lene mein jaldbaazi na karein. Trend ke sath chalein.")
 
 pm2 = st.checkbox("2. Zone Marking: 'Smart Structure & Liquidity' se zones mark kar liye hain.")
@@ -76,27 +75,40 @@ else:
     st.write(f"Trade lene ke liye abhi **{total - completed} rules** check karna bache hain.")
 
 # ==========================================
-# STAGE 3 & 4: NAYA CODE YAHAN SE SHURU HAI
+# STAGE 3: NAYA LOT SIZE CALCULATOR
 # ==========================================
 st.markdown("---")
 st.markdown("## 🛡️ STAGE 3: Position Sizing (Capital Protector)")
-st.write("Trade ka Buy/Sell button dabane se pehle apni Risk limit check karein:")
+st.write("Trade ka Buy/Sell button dabane se pehle apni Risk limit aur Lot Size check karein:")
 
-with st.expander("🧮 Calculate Lot Size / Quantity Before Entry", expanded=True):
-    col1, col2 = st.columns(2)
+with st.expander("🧮 Calculate Safe Lots / Quantity Before Entry", expanded=True):
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        risk_amount = st.number_input("Max Loss Limit per Trade (₹)", min_value=100, value=1000, step=100)
+        risk_amount = st.number_input("Max Loss (₹)", min_value=100, value=1000, step=100)
     with col2:
-        sl_points = st.number_input("Stop Loss Kitne Points Ka Hai?", min_value=1, value=20, step=1)
+        sl_points = st.number_input("Stop Loss (Points)", min_value=1, value=20, step=1)
+    with col3:
+        # HINT HATA DIYA HAI: Aap apna naya lot size directly is dabbe mein type kar sakti hain!
+        lot_size = st.number_input("Current Lot Size Likhien", min_value=1, value=15, step=1)
     
     if st.button("Calculate Safe Quantity"):
         if sl_points > 0:
-            qty = int(risk_amount / sl_points)
-            st.success(f"🛑 Aapka Stop Loss **{sl_points} points** hai.")
-            st.info(f"✅ Aapko strictly **{qty} Quantity** se zyada nahi leni chahiye!")
-            st.warning("⚠️ Warning: Agar quantity isse zyada li, toh aapka capital danger mein aa jayega. Rule break mat karna!")
+            ideal_qty = int(risk_amount / sl_points)
+            safe_lots = ideal_qty // lot_size
+            final_qty = safe_lots * lot_size
+            
+            st.success(f"🛑 Aapka Stop Loss: **{sl_points} points** | Max Risk: **₹{risk_amount}**")
+            
+            if safe_lots > 0:
+                st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**)")
+                st.warning("⚠️ Warning: Agar isse zyada Lot liye, toh risk limit cross ho jayegi. Rule break mat karna!")
+            else:
+                st.error("🚨 DO NOT TRADE! Aapka Stop Loss itna bada hai ki is Risk limit mein 1 Lot bhi nahi aayega. Ya toh chhote SL wala trade dhoondein, ya trade chhod dein.")
 
+# ==========================================
+# STAGE 4: MARKET MAUSAM & DIARY
+# ==========================================
 st.markdown("---")
 st.markdown("## 🌤️ Market Mausam & Emotion Tracker")
 
