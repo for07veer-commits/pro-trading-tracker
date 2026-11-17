@@ -18,7 +18,7 @@ with col1:
 with col2:
     # DHYAN DEIN: Niche wali line mein apna asli Scanner ka link daalein
     st.link_button("🔎 Open Veer Master Scanner", "https://trading-scanner--veer-crty7rxlsxven92q2buuiy.streamlit.app/", use_container_width=True)
-
+st.link_button("🌟 Open Market Breath Engine", "https://colab.research.google.com/drive/1ds5WtQaIqTkKUeqGPGXQSB9ZZLxmG_fk?usp=sharing", use_container_width=True)
 st.write("---")
 
 # STAGE 1: PRE-MARKET ROUTINE
