@@ -10,7 +10,7 @@ st.error("🏹 **१. वीतरागभयक्रोधः** (Na Lalach, N
 st.warning("⚖️ **२. कर्मण्येवाधिकारस्ते** (Mera kaam sirf Rule follow karna hai, Profit market ka prasad hai)")
 st.success("⚔️ **३. युद्धाय कृतनिश्चयः** (Ek Yoddha ki tarah bina emotions ke apna Dharm nibhaungi)")
 
-st.info('✨ "Main Pritika, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
+st.info('✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
 st.write("---")
 
 # Quick Links Section (Aapke dusre apps yahan link honge)
