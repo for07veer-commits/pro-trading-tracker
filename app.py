@@ -5,8 +5,12 @@ st.set_page_config(page_title="Pritika's Pro Trading Tracker", page_icon="📈",
 
 # Header & Daily Pledge
 st.title("📊 Pritika's Pro Trading Tracker")
-st.info('"Main Pritika, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla rule hai, aur profit banana doosra."')
+st.markdown("### 🕉️ गीता के ३ महामंत्र (Trader's Mindset)")
+st.error("🏹 **१. वीतरागभयक्रोधः** (Na Lalach, Na Darr, Na Gussa)")
+st.warning("⚖️ **२. कर्मण्येवाधिकारस्ते** (Mera kaam sirf Rule follow karna hai, Profit market ka prasad hai)")
+st.success("⚔️ **३. युद्धाय कृतनिश्चयः** (Ek Yoddha ki tarah bina emotions ke apna Dharm nibhaungi)")
 
+st.info('✨ "Main Pritika, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
 st.write("---")
 
 # Quick Links Section (Aapke dusre apps yahan link honge)
