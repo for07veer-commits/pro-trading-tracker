@@ -5,11 +5,37 @@ st.set_page_config(page_title="Pritika's Pro Trading Tracker", page_icon="📈",
 
 # Header & Daily Pledge
 st.title("📊 Pritika's Pro Trading Tracker")
-st.markdown("### 🕉️ गीता के ३ महामंत्र (Trader's Mindset)")
-st.error("🏹 **१. वीतरागभयक्रोधः** (Na Lalach, Na Darr, Na Gussa)")
-st.warning("⚖️ **२. कर्मण्येवाधिकारस्ते** (Mera kaam sirf Rule follow karna hai, Profit market ka prasad hai)")
-st.success("⚔️ **३. युद्धाय कृतनिश्चयः** (Ek Yoddha ki tarah bina emotions ke apna Dharm nibhaungi)")
+st.markdown(
+    "## 🕉️ गीता के ३ महामंत्र (Trader's Mindset)", unsafe_allow_html=True
+)
 
+# 1. Pehla Mahamantra
+with st.popover("🏹 १. वीतरागभयक्रोधः (Na Lalach, Na Darr, Na Gussa)"):
+  st.markdown("""
+        ### **वीतरागभयक्रोधः** *(Adhyay 2, Shlok 56)*
+        * **Sanskrit Arth:** Jo asakti, darr aur krodh se poori tarah mukt ho chuka hai.
+        * **Trading Meaning:** Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.
+    """)
+
+# Doosra Mahamantra
+with st.popover(
+    "⚖️ २. कर्मण्येवाधिकारस्ते (Mera kaam sirf Rule follow karna hai...)"
+):
+  st.markdown("""
+        ### **कर्मण्येवाधिकारस्ते** *(Adhyay 2, Shlok 47)*
+        * **Sanskrit Arth:** Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.
+        * **Trading Meaning:** Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.
+    """)
+
+# Teesra Mahamantra
+with st.popover(
+    "⚔️ ३. युद्धाय कृतनिश्चयः (Ek Yoddha ki tarah bina emotions ke...)"
+):
+  st.markdown("""
+        ### **युद्धाय कृतनिश्चयः** *(Adhyay 2, Shlok 38)*
+        * **Sanskrit Arth:** Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.
+        * **Trading Meaning:** Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.
+    """)
 st.info('✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
 
 st.write("---")
