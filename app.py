@@ -40,7 +40,43 @@ pm3 = st.checkbox("3. Global Cues & Pre-Open: Gift Nifty aur 9:08 AM ka settleme
 pm4 = st.checkbox("4. Tech Ready: Veer Master Scanner aur Dhan Power Scalper login karke ready hain.")
 
 st.write("---")
+# ==========================================
+# STAGE 1.5: MASTER POWER SUMMARY (DATA COMBINER)
+# ==========================================
+st.markdown("## 🧠 STAGE 1.5: Master Power Summary")
+st.write("Apne teeno tools ka result yahan dalein aur aaj ka 'Power Note' banayein:")
 
+with st.expander("⚡ Generate Today's Trading Power Note", expanded=True):
+    s1, s2, s3 = st.columns(3)
+    
+    with s1:
+        fii_data = st.selectbox("1. Veer News (FII/DII)", ["Select...", "Bullish (Dono Buy)", "Bearish (Dono Sell)", "Mixed (Takkar)"])
+    with s2:
+        scanner_data = st.selectbox("2. Master Scanner", ["Select...", "CE (Long Setup)", "PE (Short Setup)", "No Clear Setup"])
+    with s3:
+        breath_data = st.selectbox("3. Market Breath", ["Select...", "Positive (+)", "Negative (-)", "Neutral"])
+    
+    if st.button("🔥 Generate Power Note"):
+        if fii_data == "Select..." or scanner_data == "Select..." or breath_data == "Select...":
+            st.error("Kripya teeno tools ka result select karein!")
+        
+        # Super Bullish Setup
+        elif fii_data == "Bullish (Dono Buy)" and scanner_data == "CE (Long Setup)" and breath_data == "Positive (+)":
+            st.success("🚀 **POWER NOTE (HIGH CONVICTION):** Teeno tools ek hi disha (BULLISH) mein ishara kar rahe hain! Aaj apne Zone par aate hi NORMAL/FULL quantity ke sath Call (CE) ka trade lein. Trend aapka dost hai.")
+        
+        # Super Bearish Setup
+        elif fii_data == "Bearish (Dono Sell)" and scanner_data == "PE (Short Setup)" and breath_data == "Negative (-)":
+            st.error("📉 **POWER NOTE (HIGH CONVICTION):** Teeno tools (BEARISH) ishara kar rahe hain! Aaj bounce aane par apne Zone se NORMAL/FULL quantity ke sath Put (PE) ka trade lein. Market weak hai.")
+        
+        # Trapping / Sideways Setup
+        elif fii_data == "Mixed (Takkar)" or breath_data == "Neutral" or scanner_data == "No Clear Setup":
+            st.warning("⚠️ **POWER NOTE (CAUTION):** Data aapas mein match nahi kar raha hai! Market confused hai aur Trapping (SL Hunting) ho sakti hai. Aaj ya toh TRADE NA LEIN, ya sirf HALF (Aadhi) Quantity mein trade karein.")
+        
+        # Contradiction (Khilaf)
+        else:
+            st.info("⚖️ **POWER NOTE (WAIT & WATCH):** Tools ek dusre ke khilaf (opposite) bol rahe hain. Aise din option buyer ka paisa zero hota hai. Jab tak Data ek taraf na mude, apne haath baandh kar rakhein!")
+
+st.write("---")
 # STAGE 2: LIVE MARKET ROUTINE
 st.subheader("🎯 STAGE 2: Live Market Entry (Buy/Sell Dabaane Se Pehle)")
 
