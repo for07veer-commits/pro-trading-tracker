@@ -5,37 +5,86 @@ st.set_page_config(page_title="Pritika's Pro Trading Tracker", page_icon="📈",
 
 # Header & Daily Pledge
 st.title("📊 Pritika's Pro Trading Tracker")
-st.markdown(
-    "## 🕉️ गीता के ३ महामंत्र (Trader's Mindset)", unsafe_allow_html=True
-)
+
+# Custom Styling for Highlighted Heading & Mantra Buttons
+st.markdown("""
+<style>
+div[data-testid="stPopover"] > div > button {
+    background: linear-gradient(90deg, #FFF8DC, #FFE4B5) !important;
+    border: 2px solid #FF8C00 !important;
+    border-radius: 12px !important;
+    padding: 14px 20px !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12) !important;
+}
+div[data-testid="stPopover"] > div > button p {
+    font-size: 21px !important;
+    font-weight: 800 !important;
+    color: #8B0000 !important;
+}
+div[data-testid="stPopover"] > div > button:hover {
+    background: linear-gradient(90deg, #FFD700, #FFA500) !important;
+    border-color: #8B0000 !important;
+}
+</style>
+
+<div style="text-align: center; background: linear-gradient(90deg, #FFD700, #FF8C00); padding: 18px; border-radius: 15px; border: 3px solid #8B0000; margin-bottom: 20px; box-shadow: 0px 4px 12px rgba(0,0,0,0.2);">
+    <h1 style="color: #800000; font-size: 42px; font-weight: 900; text-shadow: 2px 2px 4px #ffffff; margin: 0;">
+        🕉️ गीता के ३ महामंत्र 🕉️
+    </h1>
+    <p style="color: #1a1a1a; font-size: 22px; font-weight: bold; margin: 5px 0 0 0;">
+        (Trader's Mindset)
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # 1. Pehla Mahamantra
-with st.popover("🏹 १. वीतरागभयक्रोधः (Na Lalach, Na Darr, Na Gussa)"):
-  st.markdown("""
-        ### **वीतरागभयक्रोधः** *(Adhyay 2, Shlok 56)*
-        * **Sanskrit Arth:** Jo asakti, darr aur krodh se poori tarah mukt ho chuka hai.
-        * **Trading Meaning:** Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.
-    """)
+with st.popover("🏹 १. वीतरागभयक्रोधः (Na Lalach, Na Darr, Na Gussa)", use_container_width=True):
+    st.markdown("""
+    <div style="background-color: #FFF0F5; padding: 20px; border-radius: 12px; border-left: 8px solid #C71585;">
+        <h2 style="color: #8B0000; font-size: 30px; font-weight: bold; margin-top: 0;">
+            🏹 वीतरागभयक्रोधः <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 56)*</span>
+        </h2>
+        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
+            <strong style="color: #D2691E;">🔸 Sanskrit Arth:</strong> Jo asakti, darr aur krodh se poori tarah mukt ho chuka hai.
+        </p>
+        <p style="font-size: 22px; color: #800000; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
+            🎯 Trading Meaning: Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Doosra Mahamantra
-with st.popover(
-    "⚖️ २. कर्मण्येवाधिकारस्ते (Mera kaam sirf Rule follow karna hai...)"
-):
-  st.markdown("""
-        ### **कर्मण्येवाधिकारस्ते** *(Adhyay 2, Shlok 47)*
-        * **Sanskrit Arth:** Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.
-        * **Trading Meaning:** Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.
-    """)
+with st.popover("⚖️ २. कर्मण्येवाधिकारस्ते (Mera kaam sirf Rule follow karna hai...)", use_container_width=True):
+    st.markdown("""
+    <div style="background-color: #F0FFF0; padding: 20px; border-radius: 12px; border-left: 8px solid #008000;">
+        <h2 style="color: #006400; font-size: 30px; font-weight: bold; margin-top: 0;">
+            ⚖️ कर्मण्येवाधिकारस्ते <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 47)*</span>
+        </h2>
+        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
+            <strong style="color: #008080;">🔸 Sanskrit Arth:</strong> Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.
+        </p>
+        <p style="font-size: 22px; color: #004d00; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
+            🎯 Trading Meaning: Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Teesra Mahamantra
-with st.popover(
-    "⚔️ ३. युद्धाय कृतनिश्चयः (Ek Yoddha ki tarah bina emotions ke...)"
-):
-  st.markdown("""
-        ### **युद्धाय कृतनिश्चयः** *(Adhyay 2, Shlok 38)*
-        * **Sanskrit Arth:** Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.
-        * **Trading Meaning:** Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.
-    """)
+with st.popover("⚔️ ३. युद्धाय कृतनिश्चयः (Ek Yoddha ki tarah bina emotions ke...)", use_container_width=True):
+    st.markdown("""
+    <div style="background-color: #F0F8FF; padding: 20px; border-radius: 12px; border-left: 8px solid #0000CD;">
+        <h2 style="color: #00008B; font-size: 30px; font-weight: bold; margin-top: 0;">
+            ⚔️ युद्धाय कृतनिश्चयः <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 38)*</span>
+        </h2>
+        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
+            <strong style="color: #4169E1;">🔸 Sanskrit Arth:</strong> Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.
+        </p>
+        <p style="font-size: 22px; color: #191970; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
+            🎯 Trading Meaning: Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
 st.info('✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."')
 
 st.write("---")
@@ -176,7 +225,7 @@ with st.expander("🧮 Calculate Safe Lots, Exact Taxes & Target", expanded=True
                 exchange_charges = total_turnover * 0.0003503
                 
                 # 4. SEBI Charges (0.0001% on Total Turnover)
-                sebi_charges = total_turnover * 0.000001
+                sebi_charges = total_turnover * 0.0001
                 
                 # 5. Stamp Duty (0.003% on Buy Turnover)
                 stamp_duty = buy_turnover * 0.00003
