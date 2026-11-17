@@ -16,8 +16,8 @@ with col1:
     # Aapka live news app link
     st.link_button("📰 Open Veer Market News", "https://veer-market-news.streamlit.app", use_container_width=True)
 with col2:
-    # Veer Scanner ka link (Agar URL alag hai toh yahan daal lein)
-    st.link_button("🔎 Open Veer Master Scanner", "https://github.com", use_container_width=True)
+    # DHYAN DEIN: Niche wali line mein apna asli Scanner ka link daalein
+    st.link_button("🔎 Open Veer Master Scanner", "https://trading-scanner--veer-crty7rxlsxven92q2buuiy.streamlit.app/", use_container_width=True)
 
 st.write("---")
 
