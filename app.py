@@ -74,3 +74,58 @@ if percentage == 100:
 else:
     st.error("🔴 DO NOT TRADE! Aapka homework ya rules abhi poore nahi hain.")
     st.write(f"Trade lene ke liye abhi **{total - completed} rules** check karna bache hain.")
+
+# ==========================================
+# STAGE 3 & 4: NAYA CODE YAHAN SE SHURU HAI
+# ==========================================
+st.markdown("---")
+st.markdown("## 🛡️ STAGE 3: Position Sizing (Capital Protector)")
+st.write("Trade ka Buy/Sell button dabane se pehle apni Risk limit check karein:")
+
+with st.expander("🧮 Calculate Lot Size / Quantity Before Entry", expanded=True):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        risk_amount = st.number_input("Max Loss Limit per Trade (₹)", min_value=100, value=1000, step=100)
+    with col2:
+        sl_points = st.number_input("Stop Loss Kitne Points Ka Hai?", min_value=1, value=20, step=1)
+    
+    if st.button("Calculate Safe Quantity"):
+        if sl_points > 0:
+            qty = int(risk_amount / sl_points)
+            st.success(f"🛑 Aapka Stop Loss **{sl_points} points** hai.")
+            st.info(f"✅ Aapko strictly **{qty} Quantity** se zyada nahi leni chahiye!")
+            st.warning("⚠️ Warning: Agar quantity isse zyada li, toh aapka capital danger mein aa jayega. Rule break mat karna!")
+
+st.markdown("---")
+st.markdown("## 🌤️ Market Mausam & Emotion Tracker")
+
+col3, col4 = st.columns(2)
+
+with col3:
+    st.markdown("### 🧭 Market Direction")
+    weather = st.radio("FII/DII Data ke hisaab se Market kaisa hai?", 
+                       ["☀️ Clear (Strong Bullish/Bearish)", "🌫️ Foggy (Sideways - Premium Decay)", "🌧️ Stormy (Highly Volatile)"])
+    
+    if "Clear" in weather:
+        st.success("Aap normal quantity ke sath pre-marked zone par trade le sakti hain.")
+    elif "Foggy" in weather:
+        st.warning("Option Buyers door rahein! Aaj premium decay hoga. No Trading Day.")
+    else:
+        st.error("Market bohot volatile hai. Quantity AADHI (Half) kar dein!")
+
+with col4:
+    st.markdown("### 📖 Digital Trade Diary")
+    with st.form("trade_journal"):
+        trade_pnl = st.number_input("Trade ka Profit/Loss (₹)", value=0)
+        reason = st.selectbox("Trade lene ka Reason kya tha?", 
+                              ["Zone Entry (Rule Followed)", "FOMO (Jaldbaazi)", "Revenge (Gussa)", "Boredom"])
+        mindset = st.select_slider("Trade lete time Mindset kaisa tha?", 
+                                   options=["Bohot Shant", "Normal", "Dara Hua", "Gusse Mein"])
+        
+        submitted = st.form_submit_button("Save Trade Record")
+        if submitted:
+            if "Rule Followed" in reason:
+                st.success(f"Good Job Pritika! Rule follow kiya. PnL: ₹{trade_pnl}")
+            else:
+                st.error(f"Rule Break! Isliye loss ya stress hua. PnL: ₹{trade_pnl}. Kal se galti nahi dohrani hai.")
