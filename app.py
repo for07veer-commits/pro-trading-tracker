@@ -475,39 +475,66 @@ with col4:
 import streamlit.components.v1 as components
 
 # ==========================================
-# STAGE 5: LIVE TRADE SCREEN RECORDER (FIXED)
+# STAGE 5: LIVE TRADE SCREEN + MULTI-AUDIO RECORDER
 # ==========================================
 st.write("")
 st.markdown("""
 <div style="background: linear-gradient(90deg, #880E4F, #C2185B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
     <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-        🎥 STAGE 5: Live Trade Screen Recorder
+        🎥 STAGE 5: Live Trade Screen & Voice Recorder
     </h3>
     <p style="color: #FCE4EC; font-size: 16px; margin: 4px 0 0 0;">
-        Apna Live Trade (Chart / Option Chain) record karein taki baad mein apni Entry aur Exit analyze kar sakein:
+        Apni pasand ka Audio Mode chunein (Sirf Mic, Sirf Computer, ya Dono Ek Sath) aur Live Trade record karein:
     </p>
 </div>
 """, unsafe_allow_html=True)
 
 components.html("""
 <div style="background: linear-gradient(135deg, #E8F5E9, #FFF8E1); border: 2px solid #2E7D32; border-radius: 14px; padding: 18px; text-align: center; font-family: sans-serif; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-    <div id="status" style="font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 14px;">
-        🟢 Ready to Record (Click Start & Select Your Chart Tab or Entire Screen)
+    
+    <!-- Audio Mode Selector -->
+    <div style="margin-bottom: 14px;">
+        <div style="font-size: 17px; font-weight: 800; color: #1B5E20; margin-bottom: 8px;">
+            🎧 Step 1: Aawaz (Audio) Ka Option Chunein:
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 620px; margin: 0 auto;">
+            <label style="background: #FFFFFF; border: 2px solid #2E7D32; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #1B5E20; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <input type="radio" name="audioMode" value="both" checked style="transform: scale(1.2);">
+                🎙️+💻 Dono Ek Sath (Mic + PC)
+            </label>
+            <label style="background: #FFFFFF; border: 2px solid #1565C0; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #0D47A1; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <input type="radio" name="audioMode" value="mic" style="transform: scale(1.2);">
+                🎙️ Sirf Meri Aawaz (Mic Only)
+            </label>
+            <label style="background: #FFFFFF; border: 2px solid #6A1B9A; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #4A148C; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <input type="radio" name="audioMode" value="system" style="transform: scale(1.2);">
+                💻 Sirf Computer Ki Aawaz
+            </label>
+            <label style="background: #FFFFFF; border: 2px solid #757575; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #424242; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <input type="radio" name="audioMode" value="none" style="transform: scale(1.2);">
+                🔇 Bina Aawaz (Only Video)
+            </label>
+        </div>
+    </div>
+
+    <div id="status" style="font-size: 16px; font-weight: bold; color: #1B5E20; background: #C8E6C9; padding: 8px 12px; border-radius: 8px; margin-bottom: 14px;">
+        🟢 Ready to Record (Upar Aawaz chunein aur Start Recording dabayein)
     </div>
     
-    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
-        <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
-            🔴 Start Screen Recording
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+        <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+            🔴 Start Recording
         </button>
-        <button id="stopBtn" onclick="stopRecording()" style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+        <button id="stopBtn" onclick="stopRecording()" style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
             ⏹️ Stop Recording
         </button>
-        <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+        <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
             💾 Download Trade Video
         </a>
     </div>
 
-    <video id="preview" autoplay muted playsinline style="width: 100%; max-height: 220px; border-radius: 10px; border: 2px solid #1B5E20; display: none; background: #000; margin-top: 10px;"></video>
+    <video id="preview" autoplay muted playsinline style="width: 100%; max-height: 200px; border-radius: 10px; border: 2px solid #1B5E20; display: none; background: #000; margin-top: 8px;"></video>
 </div>
 
 <script>
@@ -522,16 +549,17 @@ function bindActiveRecording() {
             finalizeRecording();
         };
     }
-    if (store._pritikaStream && store._pritikaStream.getVideoTracks().length > 0) {
-        store._pritikaStream.getVideoTracks()[0].onended = function() {
+    if (store._pritikaDisplayStream && store._pritikaDisplayStream.getVideoTracks().length > 0) {
+        store._pritikaDisplayStream.getVideoTracks()[0].onended = function() {
             stopRecording();
         };
     }
     if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
-        statusEl.innerHTML = '🔴 LIVE RECORDING CHALU HAI... (Rokne ke liye Stop Recording dabayein)';
+        statusEl.innerHTML = store._pritikaStatusText || '🔴 LIVE RECORDING CHALU HAI...';
         statusEl.style.color = '#B71C1C';
-        if (store._pritikaStream) {
-            preview.srcObject = store._pritikaStream;
+        statusEl.style.background = '#FFCDD2';
+        if (store._pritikaDisplayStream) {
+            preview.srcObject = store._pritikaDisplayStream;
             preview.style.display = 'block';
         }
     }
@@ -555,12 +583,14 @@ function finalizeRecording() {
             downloadLink.click();
         }
         if (statusEl) {
-            statusEl.innerHTML = '✅ Recording Complete & Video Downloaded! (Dobara save karne ke liye blue button dabayein)';
+            statusEl.innerHTML = '✅ Recording Complete & Video Downloaded!';
             statusEl.style.color = '#0D47A1';
+            statusEl.style.background = '#BBDEFB';
         }
     } else if (statusEl) {
         statusEl.innerHTML = '⏹️ Recording Ruk Gayi Hai.';
         statusEl.style.color = '#1B5E20';
+        statusEl.style.background = '#C8E6C9';
     }
     if (preview) {
         preview.style.display = 'none';
@@ -568,23 +598,96 @@ function finalizeRecording() {
 }
 
 async function startRecording() {
+    const statusEl = document.getElementById('status');
+    const modeEl = document.querySelector('input[name="audioMode"]:checked');
+    const mode = modeEl ? modeEl.value : 'both';
+
     try {
         if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
             stopRecording();
         }
+        
         const mediaDevices = (store.navigator && store.navigator.mediaDevices) 
                              ? store.navigator.mediaDevices 
                              : navigator.mediaDevices;
-                             
-        const stream = await mediaDevices.getDisplayMedia({
+
+        let micStream = null;
+        let displayStream = null;
+
+        // 1. Agar Mic chahiye (Mic Only ya Both) toh pehle Mic on karein
+        if (mode === 'mic' || mode === 'both') {
+            try {
+                micStream = await mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                });
+            } catch (micErr) {
+                console.warn("Mic error:", micErr);
+                if (mode === 'mic') {
+                    statusEl.innerHTML = '⚠️ Mic Permission Denied! Browser mein upar Lock/Camera icon par click karke Microphone Allow karein.';
+                    statusEl.style.color = '#B71C1C';
+                    statusEl.style.background = '#FFCDD2';
+                    return;
+                }
+            }
+        }
+
+        // 2. Screen Capture (+ System Audio agar 'system' ya 'both' chuna hai)
+        const wantSystemAudio = (mode === 'system' || mode === 'both');
+        displayStream = await mediaDevices.getDisplayMedia({
             video: { cursor: "always" },
-            audio: false
+            audio: wantSystemAudio
         });
+
+        const hasMic = micStream && micStream.getAudioTracks().length > 0;
+        const hasSys = displayStream && displayStream.getAudioTracks().length > 0;
+
+        // 3. Audio Tracks Mix Karein
+        const tracks = [...displayStream.getVideoTracks()];
+
+        if (hasMic && hasSys) {
+            const AudioCtx = store.AudioContext || store.webkitAudioContext || window.AudioContext;
+            const audioCtx = new AudioCtx();
+            if (audioCtx.state === 'suspended') {
+                await audioCtx.resume();
+            }
+            const dest = audioCtx.createMediaStreamDestination();
+            audioCtx.createMediaStreamSource(displayStream).connect(dest);
+            audioCtx.createMediaStreamSource(micStream).connect(dest);
+            tracks.push(...dest.stream.getAudioTracks());
+            store._pritikaAudioCtx = audioCtx;
+            store._pritikaStatusText = '🔴 LIVE RECORDING: 🎙️ Meri Aawaz + 💻 Computer Aawaz DONO ON Hain!';
+        } else if (hasMic) {
+            tracks.push(...micStream.getAudioTracks());
+            store._pritikaStatusText = (mode === 'both')
+                ? '🔴 LIVE RECORDING: 🎙️ Meri Aawaz ON Hai (Popup mein Computer Audio tick nahi kiya gaya)'
+                : '🔴 LIVE RECORDING: 🎙️ Sirf Meri Aawaz (Mic) Record Ho Rahi Hai!';
+        } else if (hasSys) {
+            tracks.push(...displayStream.getAudioTracks());
+            store._pritikaStatusText = '🔴 LIVE RECORDING: 💻 Sirf Computer Ki Aawaz Record Ho Rahi Hai!';
+        } else {
+            store._pritikaStatusText = (mode === 'system')
+                ? '⚠️ Video Record Ho Raha Hai, par Computer Aawaz ke liye popup mein "Also share audio" tick karna zaroori hai!'
+                : '🔴 LIVE RECORDING: 🔇 Bina Aawaz (Only Video) Record Ho Raha Hai!';
+        }
+
+        const combinedStream = new MediaStream(tracks);
         
-        store._pritikaStream = stream;
+        store._pritikaDisplayStream = displayStream;
+        store._pritikaMicStream = micStream;
+        store._pritikaStream = combinedStream;
         store._pritikaChunks = [];
+
+        let options = { mimeType: 'video/webm;codecs=vp8,opus' };
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            options = { mimeType: 'video/webm' };
+        }
         
-        const recorder = new MediaRecorder(stream);
+        const recorder = new MediaRecorder(combinedStream, options);
         store._pritikaRecorder = recorder;
         
         recorder.ondataavailable = function(e) {
@@ -598,8 +701,9 @@ async function startRecording() {
         document.getElementById('downloadLink').style.display = 'none';
         
     } catch (err) {
-        document.getElementById('status').innerHTML = '⚠️ Screen select nahi ki gayi! Popup box mein pehle screen ki photo par click karein, phir "Share" dabayein.';
-        document.getElementById('status').style.color = '#E65100';
+        statusEl.innerHTML = '⚠️ Screen select nahi ki gayi! Popup box mein screen par click karke "Share" dabayein.';
+        statusEl.style.color = '#E65100';
+        statusEl.style.background = '#FFE0B2';
     }
 }
 
@@ -620,6 +724,15 @@ function stopRecording() {
         if (store._pritikaStream) {
             store._pritikaStream.getTracks().forEach(track => track.stop());
         }
+        if (store._pritikaDisplayStream) {
+            store._pritikaDisplayStream.getTracks().forEach(track => track.stop());
+        }
+        if (store._pritikaMicStream) {
+            store._pritikaMicStream.getTracks().forEach(track => track.stop());
+        }
+        if (store._pritikaAudioCtx && store._pritikaAudioCtx.state !== 'closed') {
+            store._pritikaAudioCtx.close();
+        }
     } catch (e) {
         finalizeRecording();
     }
@@ -627,4 +740,4 @@ function stopRecording() {
 
 bindActiveRecording();
 </script>
-""", height=360)
+""", height=430)
