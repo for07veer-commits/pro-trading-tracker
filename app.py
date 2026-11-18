@@ -13,130 +13,48 @@ st.set_page_config(page_title="Pritika's Pro Trading Tracker", page_icon="📈",
 # ==========================================
 st.markdown("""
 <style>
-/* App Background */
-.stApp {
-    background: linear-gradient(180deg, #F9FBF9 0%, #FFFDF7 100%);
-}
-
-/* Geeta Mantra Popover Buttons */
+.stApp { background: linear-gradient(180deg, #F9FBF9 0%, #FFFDF7 100%); }
 div[data-testid="stPopover"] > div > button {
     background: linear-gradient(90deg, #FFF8DC, #FFE4B5) !important;
-    border: 2px solid #FF8C00 !important;
-    border-radius: 12px !important;
-    padding: 14px 20px !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12) !important;
+    border: 2px solid #FF8C00 !important; border-radius: 12px !important;
+    padding: 14px 20px !important; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12) !important;
 }
 div[data-testid="stPopover"] > div > button p {
-    font-size: 21px !important;
-    font-weight: 800 !important;
-    color: #8B0000 !important;
+    font-size: 21px !important; font-weight: 800 !important; color: #8B0000 !important;
 }
 div[data-testid="stPopover"] > div > button:hover {
-    background: linear-gradient(90deg, #FFD700, #FFA500) !important;
-    border-color: #8B0000 !important;
+    background: linear-gradient(90deg, #FFD700, #FFA500) !important; border-color: #8B0000 !important;
 }
-
-/* Master Tool Link Buttons */
 div[data-testid="stLinkButton"] > a {
     background: linear-gradient(90deg, #008080, #20B2AA) !important;
-    color: #FFFFFF !important;
-    border: 2px solid #004D40 !important;
-    border-radius: 12px !important;
-    padding: 12px 18px !important;
-    font-weight: 800 !important;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.15) !important;
+    color: #FFFFFF !important; border: 2px solid #004D40 !important;
+    border-radius: 12px !important; padding: 12px 18px !important; font-weight: 800 !important;
 }
-div[data-testid="stLinkButton"] > a p {
-    color: #FFFFFF !important;
-    font-size: 18px !important;
-    font-weight: bold !important;
-}
-div[data-testid="stLinkButton"] > a:hover {
-    background: linear-gradient(90deg, #004D40, #008080) !important;
-    border-color: #FFD700 !important;
-}
-
-/* Action Buttons (Generate Power Note, Calculate Tax, Save Diary) */
+div[data-testid="stLinkButton"] > a p { color: #FFFFFF !important; font-size: 18px !important; font-weight: bold !important; }
 div.stButton > button, div[data-testid="stFormSubmitButton"] > button {
     background: linear-gradient(90deg, #1B5E20, #2E7D32, #43A047) !important;
-    color: white !important;
-    border: 2px solid #FFD700 !important;
-    border-radius: 12px !important;
-    padding: 12px 24px !important;
-    width: 100% !important;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2) !important;
+    color: white !important; border: 2px solid #FFD700 !important;
+    border-radius: 12px !important; padding: 12px 24px !important; width: 100% !important;
 }
 div.stButton > button p, div[data-testid="stFormSubmitButton"] > button p {
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    color: #FFFFFF !important;
+    font-size: 20px !important; font-weight: 800 !important; color: #FFFFFF !important;
 }
-div.stButton > button:hover, div[data-testid="stFormSubmitButton"] > button:hover {
-    background: linear-gradient(90deg, #FF6F00, #F57C00) !important;
-    border-color: #8B0000 !important;
-}
-
-/* Checkboxes (Rules) - Hara Bhara Card Look */
 div[data-testid="stCheckbox"] {
     background: linear-gradient(90deg, #E8F5E9, #F1F8E9);
-    padding: 12px 16px;
-    border-radius: 10px;
-    border-left: 6px solid #2E7D32;
-    border-right: 1px solid #C8E6C9;
-    margin-bottom: 10px;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.06);
+    padding: 12px 16px; border-radius: 10px; border-left: 6px solid #2E7D32;
+    border-right: 1px solid #C8E6C9; margin-bottom: 10px;
 }
-div[data-testid="stCheckbox"] label p {
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    color: #1B5E20 !important;
-}
-
-/* Expanders (Power Note & Tax Calculator) */
+div[data-testid="stCheckbox"] label p { font-size: 18px !important; font-weight: 700 !important; color: #1B5E20 !important; }
 div[data-testid="stExpander"] {
-    border: 2px solid #2E7D32 !important;
-    border-radius: 14px !important;
-    background-color: #FAFFFA !important;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.08) !important;
+    border: 2px solid #2E7D32 !important; border-radius: 14px !important; background-color: #FAFFFA !important;
 }
-div[data-testid="stExpander"] summary {
-    background: linear-gradient(90deg, #C8E6C9, #DCEDC8) !important;
-    border-radius: 12px 12px 0 0 !important;
-    padding: 12px 16px !important;
-}
-div[data-testid="stExpander"] summary p {
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    color: #1B5E20 !important;
-}
-
-/* Metric Cards (Tax, Target, Net Profit) */
 div[data-testid="stMetric"] {
     background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
-    border: 2px solid #2E7D32;
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    border: 2px solid #2E7D32; border-radius: 12px; padding: 15px; text-align: center;
 }
-div[data-testid="stMetricLabel"] p {
-    font-size: 16px !important;
-    font-weight: bold !important;
-    color: #1B5E20 !important;
-}
-div[data-testid="stMetricValue"] {
-    font-size: 26px !important;
-    font-weight: 900 !important;
-    color: #004D40 !important;
-}
-
-/* Digital Trade Diary Form */
 div[data-testid="stForm"] {
     background: linear-gradient(135deg, #F3E5F5, #E8EAF6);
-    border: 2px solid #6A1B9A;
-    border-radius: 14px;
-    padding: 18px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    border: 2px solid #6A1B9A; border-radius: 14px; padding: 18px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -172,11 +90,9 @@ def verify_pin(user_input):
     if not pin:
         return False, "", False, []
     
-    # 1. Check Master Admin Password
     if pin == db.get("admin_pass", DEFAULT_ADMIN_PASS):
         return True, "👑 Admin Mode Active (All Stages Unlocked)", True, ["1", "2", "3", "4", "5"]
     
-    # 2. Check 4-Digit User PIN
     pins_data = db.get("pins", {})
     if pin in pins_data:
         info = pins_data[pin]
@@ -195,16 +111,14 @@ if "saved_pass" not in st.session_state:
 
 is_valid, status_msg, is_admin, allowed_stages = verify_pin(st.session_state.saved_pass)
 
-# Login Screen (Jab tak valid password na dala jaye)
+# --- LOGIN SCREEN ---
 if not is_valid:
     st.markdown("""
-    <div style="text-align: center; background: linear-gradient(90deg, #004D40, #1B5E20, #2E7D32); padding: 18px; border-radius: 15px; border: 3px solid #FFD700; margin-bottom: 18px; box-shadow: 0px 5px 15px rgba(0,0,0,0.25);">
-        <h1 style="color: #FFD700; font-size: 36px; font-weight: 900; text-shadow: 2px 2px 4px #000000; margin: 0;">
-            🔒 Pritika's Pro Trading Tracker
-        </h1>
+    <div style="text-align: center; background: linear-gradient(90deg, #004D40, #1B5E20, #2E7D32); padding: 18px; border-radius: 15px; border: 3px solid #FFD700; margin-bottom: 18px;">
+        <h1 style="color: #FFD700; font-size: 34px; font-weight: 900; margin: 0;">🔒 Pritika's Pro Trading Tracker</h1>
     </div>
     """, unsafe_allow_html=True)
-    st.info("🔑 Is app ko kholne ke liye apna **4-Digit Password** dalein (Admin Default: **7777**).")
+    st.info("🔑 App kholne ke liye apna **4-Digit Password** dalein (Admin Default: **7777**).")
     input_pass = st.text_input("Enter 4-Digit Password:", type="password", max_chars=20, placeholder="Example: 7777")
     if st.button("🔓 Unlock App"):
         ok, msg, adm, stg = verify_pin(input_pass)
@@ -215,7 +129,7 @@ if not is_valid:
             st.error(msg)
     st.stop()
 
-# 🔝 TOP BAR (RIGHT CORNER ADMIN ICON SIRF PRITIKA JI KE LIYE)
+# --- TOP ADMIN BAR ---
 if is_admin:
     col_status, col_admin, col_logout = st.columns([5.5, 2.5, 2])
     with col_status:
@@ -224,55 +138,33 @@ if is_admin:
         admin_box = st.popover("👑 Admin", use_container_width=True) if hasattr(st, "popover") else st.expander("👑 Admin")
         with admin_box:
             st.markdown("### ⚡ 4-Digit Password Banayein")
-            plan = st.radio(
-                "1. Plan Validity Chunein:",
-                ["1 Day (24 Hours)", "1 Month (30 Days)", "1 Year (365 Days)"]
-            )
-            st.markdown("**2. Kaun-Kaun se Stages dikhane hain?**")
-            st_s1 = st.checkbox("Stage 1: Pre-Market & Power Note", value=True, key="adm_s1")
-            st_s2 = st.checkbox("Stage 2: Live Market Rules & Score", value=True, key="adm_s2")
-            st_s3 = st.checkbox("Stage 3: Target & Tax Calculator", value=True, key="adm_s3")
-            st_s4 = st.checkbox("Stage 4: Market Mausam & Diary", value=True, key="adm_s4")
-            st_s5 = st.checkbox("Stage 5: Live Screen & Voice Recorder", value=True, key="adm_s5")
-            
-            custom_pin = st.text_input("3. Apni marzi ka 4-Digit PIN likhein (Ya khali chhod dein):", max_chars=4, placeholder="Ex: 4582")
-            
+            plan = st.radio("1. Plan Validity:", ["1 Day (24 Hours)", "1 Month (30 Days)", "1 Year (365 Days)"])
+            st.markdown("**2. Stages Select Karein:**")
+            st_s1 = st.checkbox("Stage 1: Pre-Market", value=True, key="adm_s1")
+            st_s2 = st.checkbox("Stage 2: Live Market Rules", value=True, key="adm_s2")
+            st_s3 = st.checkbox("Stage 3: Target Calculator", value=True, key="adm_s3")
+            st_s4 = st.checkbox("Stage 4: Trade Diary", value=True, key="adm_s4")
+            st_s5 = st.checkbox("Stage 5: Screen Recorder", value=True, key="adm_s5")
+            custom_pin = st.text_input("3. Custom 4-Digit PIN (Optional):", max_chars=4, placeholder="Ex: 4582")
             selected_stages = [s for s, val in [("1", st_s1), ("2", st_s2), ("3", st_s3), ("4", st_s4), ("5", st_s5)] if val]
             
             if st.button("🔑 Create 4-Digit Password"):
                 if not selected_stages:
-                    st.warning("Kripya kam se kam 1 Stage zaroor select karein!")
+                    st.warning("Kam se kam 1 Stage select karein!")
                 elif custom_pin and (len(custom_pin) != 4 or not custom_pin.isdigit()):
-                    st.warning("Kripya sirf 4 ank (digits) ka number dalein (jaise 1234)!")
+                    st.warning("Sirf 4 digits ka number dalein!")
                 else:
                     new_pin = custom_pin if custom_pin else str(random.randint(1000, 9999))
                     days_map = {"1 Day (24 Hours)": 1, "1 Month (30 Days)": 30, "1 Year (365 Days)": 365}
                     exp_dt = datetime.now(IST).replace(tzinfo=None) + timedelta(days=days_map[plan])
-                    
-                    db["pins"][new_pin] = {
-                        "expiry": exp_dt.strftime("%Y-%m-%d %H:%M"),
-                        "stages": selected_stages,
-                        "plan": plan
-                    }
+                    db["pins"][new_pin] = {"expiry": exp_dt.strftime("%Y-%m-%d %H:%M"), "stages": selected_stages, "plan": plan}
                     save_db(db)
-                    
                     stg_names = ", ".join([f"Stage {x}" for x in selected_stages])
-                    st.success(f"✅ Naya 4-Digit PIN: **{new_pin}**")
-                    share_msg = (
-                        f"📊 *Pritika's Pro Trading Tracker*\n"
-                        f"🔗 *App Link:* https://pro-trading-tracker-ukcmgab2wnnufj9qzbse9s.streamlit.app/\n"
-                        f"🔑 *4-Digit Password:* `{new_pin}`\n"
-                        f"🔓 *Unlocked Access:* {stg_names}\n"
-                        f"⏳ *Validity:* {plan} (Valid till {exp_dt.strftime('%d %b %Y, %I:%M %p')})"
-                    )
-                    st.markdown("**WhatsApp par bhejne ke liye Copy karein:**")
-                    st.code(share_msg, language="markdown")
+                    st.success(f"✅ Naya PIN: **{new_pin}**")
+                    st.code(f"🔗 App Link: https://pro-trading-tracker-ukcmgab2wnnufj9qzbse9s.streamlit.app/\n🔑 Password: {new_pin}\n🔓 Access: {stg_names}\n⏳ Valid till {exp_dt.strftime('%d %b %Y, %I:%M %p')}", language="markdown")
             
             if db.get("pins"):
                 st.markdown("---")
-                st.markdown("**📋 Active 4-Digit Passwords:**")
-                for p_code, p_info in list(db["pins"].items()):
-                    st.caption(f"🔑 **{p_code}** | Stages: {','.join(p_info['stages'])} | Till: {p_info['expiry']}")
                 if st.button("🗑️ Clear All User Passwords"):
                     db["pins"] = {}
                     save_db(db)
@@ -280,15 +172,13 @@ if is_admin:
 
             st.markdown("---")
             st.markdown("### ⚙️ Apna Admin Password Badlein")
-            new_admin_p = st.text_input("Naya Admin Password dalein:", placeholder="Ex: 9999 ya PRITIKA123")
+            new_admin_p = st.text_input("Naya Admin Password dalein:", placeholder="Ex: 9999")
             if st.button("💾 Save New Admin Password"):
                 if new_admin_p.strip():
                     db["admin_pass"] = new_admin_p.strip()
                     save_db(db)
                     st.session_state.saved_pass = new_admin_p.strip()
-                    st.success(f"✅ Aapka naya Admin Password '{new_admin_p.strip()}' save ho gaya!")
-                else:
-                    st.warning("Password khali nahi ho sakta!")
+                    st.success(f"✅ Saved!")
     with col_logout:
         if st.button("🚪 Logout"):
             st.session_state.saved_pass = ""
@@ -306,256 +196,351 @@ else:
 # MAIN APP TITLE & GEETA MAHAMANTRAS
 # ==========================================
 st.markdown("""
-<div style="text-align: center; background: linear-gradient(90deg, #004D40, #1B5E20, #2E7D32); padding: 18px; border-radius: 15px; border: 3px solid #FFD700; margin-bottom: 18px; box-shadow: 0px 5px 15px rgba(0,0,0,0.25);">
-    <h1 style="color: #FFD700; font-size: 38px; font-weight: 900; text-shadow: 2px 2px 4px #000000; margin: 0;">
-        📊 Pritika's Pro Trading Tracker
-    </h1>
+<div style="text-align: center; background: linear-gradient(90deg, #004D40, #1B5E20, #2E7D32); padding: 18px; border-radius: 15px; border: 3px solid #FFD700; margin-bottom: 18px;">
+    <h1 style="color: #FFD700; font-size: 38px; font-weight: 900; margin: 0;">📊 Pritika's Pro Trading Tracker</h1>
 </div>
-
-<div style="text-align: center; background: linear-gradient(90deg, #FFD700, #FF8C00); padding: 18px; border-radius: 15px; border: 3px solid #8B0000; margin-bottom: 20px; box-shadow: 0px 4px 12px rgba(0,0,0,0.2);">
-    <h1 style="color: #800000; font-size: 42px; font-weight: 900; text-shadow: 2px 2px 4px #ffffff; margin: 0;">
-        🕉️ गीता के ३ महामंत्र 🕉️
-    </h1>
-    <p style="color: #1a1a1a; font-size: 22px; font-weight: bold; margin: 5px 0 0 0;">
-        (Trader's Mindset)
-    </p>
+<div style="text-align: center; background: linear-gradient(90deg, #FFD700, #FF8C00); padding: 18px; border-radius: 15px; border: 3px solid #8B0000; margin-bottom: 20px;">
+    <h1 style="color: #800000; font-size: 40px; font-weight: 900; margin: 0;">🕉️ गीता के ३ महामंत्र 🕉️</h1>
+    <p style="color: #1a1a1a; font-size: 20px; font-weight: bold; margin: 5px 0 0 0;">(Trader's Mindset)</p>
 </div>
 """, unsafe_allow_html=True)
 
-# 1. Pehla Mahamantra
 with st.popover("🏹 १. वीतरागभयक्रोधः (Na Lalach, Na Darr, Na Gussa)", use_container_width=True):
-    st.markdown("""
-    <div style="background-color: #FFF0F5; padding: 20px; border-radius: 12px; border-left: 8px solid #C71585;">
-        <h2 style="color: #8B0000; font-size: 30px; font-weight: bold; margin-top: 0;">
-            🏹 वीतरागभयक्रोधः <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 56)*</span>
-        </h2>
-        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
-            <strong style="color: #D2691E;">🔸 Sanskrit Arth:</strong> Jo asakti, darr aur krodh se poori tarah mukt ho chuka hai.
-        </p>
-        <p style="font-size: 22px; color: #800000; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
-            🎯 Trading Meaning: Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Doosra Mahamantra
+    st.markdown("**🎯 Trading Meaning:** Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.")
 with st.popover("⚖️ २. कर्मण्येवाधिकारस्ते (Mera kaam sirf Rule follow karna hai...)", use_container_width=True):
-    st.markdown("""
-    <div style="background-color: #F0FFF0; padding: 20px; border-radius: 12px; border-left: 8px solid #008000;">
-        <h2 style="color: #006400; font-size: 30px; font-weight: bold; margin-top: 0;">
-            ⚖️ कर्मण्येवाधिकारस्ते <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 47)*</span>
-        </h2>
-        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
-            <strong style="color: #008080;">🔸 Sanskrit Arth:</strong> Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.
-        </p>
-        <p style="font-size: 22px; color: #004d00; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
-            🎯 Trading Meaning: Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Teesra Mahamantra
+    st.markdown("**🎯 Trading Meaning:** Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.")
 with st.popover("⚔️ ३. युद्धाय कृतनिश्चयः (Ek Yoddha ki tarah bina emotions ke...)", use_container_width=True):
-    st.markdown("""
-    <div style="background-color: #F0F8FF; padding: 20px; border-radius: 12px; border-left: 8px solid #0000CD;">
-        <h2 style="color: #00008B; font-size: 30px; font-weight: bold; margin-top: 0;">
-            ⚔️ युद्धाय कृतनिश्चयः <span style="font-size: 18px; color: #555;">*(Adhyay 2, Shlok 38)*</span>
-        </h2>
-        <p style="font-size: 21px; color: #2F4F4F; line-height: 1.6;">
-            <strong style="color: #4169E1;">🔸 Sanskrit Arth:</strong> Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.
-        </p>
-        <p style="font-size: 22px; color: #191970; font-weight: bold; line-height: 1.6; margin-bottom: 0;">
-            🎯 Trading Meaning: Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("**🎯 Trading Meaning:** Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.")
 
-# Highlighted Daily Pledge Box
 st.markdown("""
-<div style="background: linear-gradient(90deg, #E8F5E9, #C8E6C9); padding: 16px 20px; border-radius: 12px; border: 2px solid #2E7D32; margin-top: 10px; margin-bottom: 20px; text-align: center; box-shadow: 0px 3px 8px rgba(0,0,0,0.1);">
-    <p style="color: #1B5E20; font-size: 20px; font-weight: 800; margin: 0;">
-        ✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."
-    </p>
+<div style="background: linear-gradient(90deg, #E8F5E9, #C8E6C9); padding: 16px 20px; border-radius: 12px; border: 2px solid #2E7D32; margin: 15px 0; text-align: center;">
+    <p style="color: #1B5E20; font-size: 20px; font-weight: 800; margin: 0;">✨ "Main Pritika Veer, apne in trading rules ka 100% palan karungi. Capital ko bachana mera pehla dharam hai, aur profit banana doosra."</p>
 </div>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# QUICK LINKS SECTION (PRITIKA'S MASTER TOOLS)
-# ==========================================
-st.markdown("""
-<div style="background: linear-gradient(90deg, #00695C, #00897B); padding: 12px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px; box-shadow: 0px 3px 8px rgba(0,0,0,0.15);">
-    <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-        🔗 Pritika's Master Tools
-    </h3>
-</div>
-""", unsafe_allow_html=True)
-
+# QUICK LINKS
 col1, col2 = st.columns(2)
 with col1:
     st.link_button("📰 Open Veer Market News", "https://veer-market-news.streamlit.app", use_container_width=True)
 with col2:
     st.link_button("🔎 Open Veer Master Scanner", "https://trading-scanner--veer-crty7rxlsxven92q2buuiy.streamlit.app/", use_container_width=True)
-    st.link_button("🌟 Open Market Breath Engine", "https://colab.research.google.com/drive/1ds5WtQaIqTkKUeqGPGXQSB9ZZLxmG_fk?usp=sharing", use_container_width=True)
-
-st.write("")
 
 pm1 = pm2 = pm3 = pm4 = False
 lm1 = lm2 = lm3 = lm4 = False
 
 # ==========================================
-# STAGE 1: PRE-MARKET ROUTINE & STAGE 1.5
+# STAGE 1: PRE-MARKET & POWER NOTE
 # ==========================================
 if "1" in allowed_stages:
+    st.write("")
     st.markdown("""
-    <div style="background: linear-gradient(90deg, #1565C0, #1E88E5); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🌙 STAGE 1: Pre-Market & Data Analysis
-        </h3>
+    <div style="background: linear-gradient(90deg, #1565C0, #1E88E5); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px;">
+        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">🌙 STAGE 1: Pre-Market & Data Analysis</h3>
     </div>
     """, unsafe_allow_html=True)
-
     pm1 = st.checkbox("1. FII/DII Data & Option Chain: Maine Veer News App mein aaj ka data analyze kar liya hai.")
-    if pm1:
-        st.warning("📌 IMP NOTE: Dhyan rahe! Agar FII aur DII dono Futures bech rahe hain, toh Call (CE) lene mein jaldbaazi na karein. Trend ke sath chalein.")
-
     pm2 = st.checkbox("2. Zone Marking: 'Smart Structure & Liquidity' se zones mark kar liye hain.")
-    if pm2:
-        st.info("📌 IMP NOTE: Fibonacci 0.618 level aur Gann ratios ko chart par cross-verify zaroor karein. Zone ke bahar NO ENTRY.")
-
     pm3 = st.checkbox("3. Global Cues & Pre-Open: Gift Nifty aur 9:08 AM ka settlement dekh liya hai.")
     pm4 = st.checkbox("4. Tech Ready: Veer Master Scanner aur Dhan Power Scalper login karke ready hain.")
 
-    st.write("")
-
-    # STAGE 1.5: MASTER POWER SUMMARY 
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #6A1B9A, #8E24AA); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🧠 STAGE 1.5: Master Power Summary
-        </h3>
-        <p style="color: #F3E5F5; font-size: 16px; margin: 4px 0 0 0;">
-            Apne teeno tools ka result yahan dalein aur aaj ka 'Power Note' banayein:
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
     with st.expander("⚡ Generate Today's Trading Power Note", expanded=True):
         s1, s2, s3 = st.columns(3)
-        
-        with s1:
-            fii_data = st.selectbox("1. Veer News (FII/DII)", ["Select...", "Bullish (Dono Buy)", "Bearish (Dono Sell)", "Mixed (Takkar)"])
-        with s2:
-            scanner_data = st.selectbox("2. Master Scanner", ["Select...", "CE (Long Setup)", "PE (Short Setup)", "No Clear Setup"])
-        with s3:
-            breath_data = st.selectbox("3. Market Breath", ["Select...", "Positive (+)", "Negative (-)", "Neutral"])
+        with s1: fii_data = st.selectbox("1. Veer News", ["Select...", "Bullish (Dono Buy)", "Bearish (Dono Sell)", "Mixed (Takkar)"])
+        with s2: scanner_data = st.selectbox("2. Master Scanner", ["Select...", "CE (Long Setup)", "PE (Short Setup)", "No Clear Setup"])
+        with s3: breath_data = st.selectbox("3. Market Breath", ["Select...", "Positive (+)", "Negative (-)", "Neutral"])
         
         if st.button("🔥 Generate Power Note"):
-            if fii_data == "Select..." or scanner_data == "Select..." or breath_data == "Select...":
-                st.error("Kripya teeno tools ka result select karein!")
-            elif fii_data == "Bullish (Dono Buy)" and scanner_data == "CE (Long Setup)" and breath_data == "Positive (+)":
-                st.success("🚀 **POWER NOTE (HIGH CONVICTION):** Teeno tools ek hi disha (BULLISH) mein ishara kar rahe hain! Aaj apne Zone par aate hi NORMAL/FULL quantity ke sath Call (CE) ka trade lein. Trend aapka dost hai.")
+            if fii_data == "Bullish (Dono Buy)" and scanner_data == "CE (Long Setup)" and breath_data == "Positive (+)":
+                st.success("🚀 **POWER NOTE:** Teeno tools BULLISH hain! Zone par NORMAL quantity mein Call (CE) dekhein.")
             elif fii_data == "Bearish (Dono Sell)" and scanner_data == "PE (Short Setup)" and breath_data == "Negative (-)":
-                st.error("📉 **POWER NOTE (HIGH CONVICTION):** Teeno tools (BEARISH) ishara kar rahe hain! Aaj bounce aane par apne Zone se NORMAL/FULL quantity ke sath Put (PE) ka trade lein. Market weak hai.")
-            elif fii_data == "Mixed (Takkar)" or breath_data == "Neutral" or scanner_data == "No Clear Setup":
-                st.warning("⚠️ **POWER NOTE (CAUTION):** Data aapas mein match nahi kar raha hai! Market confused hai aur Trapping (SL Hunting) ho sakti hai. Aaj ya toh TRADE NA LEIN, ya sirf HALF (Aadhi) Quantity mein trade karein.")
+                st.error("📉 **POWER NOTE:** Teeno tools BEARISH hain! Zone se NORMAL quantity mein Put (PE) dekhein.")
             else:
-                st.info("⚖️ **POWER NOTE (WAIT & WATCH):** Tools ek dusre ke khilaf (opposite) bol rahe hain. Aise din option buyer ka paisa zero hota hai. Jab tak Data ek taraf na mude, apne haath baandh kar rakhein!")
-
-    st.write("")
+                st.warning("⚠️ **POWER NOTE (CAUTION):** Data mixed hai! Aaj ya toh TRADE NA LEIN, ya sirf HALF Quantity mein trade karein.")
 
 # ==========================================
-# STAGE 2: LIVE MARKET ROUTINE
+# STAGE 2: LIVE MARKET ROUTINE & SCORE
 # ==========================================
 if "2" in allowed_stages:
+    st.write("")
     st.markdown("""
-    <div style="background: linear-gradient(90deg, #B71C1C, #D84315); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🎯 STAGE 2: Live Market Entry (Buy/Sell Dabaane Se Pehle)
-        </h3>
+    <div style="background: linear-gradient(90deg, #B71C1C, #D84315); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px;">
+        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">🎯 STAGE 2: Live Market Entry</h3>
     </div>
     """, unsafe_allow_html=True)
-
     lm1 = st.checkbox("Rule 1: Trade strictly mere pre-marked 'ZONE' ke andar aa gaya hai (No FOMO).")
-    if lm1:
-        st.error("🚨 ALERT: Market bhaag raha ho tab bhi chalti train mein nahi chadhna hai. Apne zone ka wait karein!")
-
     lm2 = st.checkbox("Rule 2: Entry lene se pehle maine fix Stop Loss (SL) aur Target soch liya hai.")
     lm3 = st.checkbox("Rule 3: Aaj ki Max 3 Trades ki limit abhi bachi hui hai.")
-    if lm3:
-        st.warning("📌 IMP NOTE: Yaad rakhein - Sirf 3 Goliya! Pehle 2 trade loss mein gaye toh turant screen band karni hai.")
-
     lm4 = st.checkbox("Rule 4: Main bina kisi Revenge ke, bilkul shant dimaag se trade le rahi hoon.")
 
     tasks = [pm1, pm2, pm3, pm4, lm1, lm2, lm3, lm4] if "1" in allowed_stages else [lm1, lm2, lm3, lm4]
-    completed = sum(tasks)
-    total = len(tasks)
-    percentage = int((completed / total) * 100)
-
-    st.write("")
-
-    # DISPLAY SCORE & PROGRESS BAR
-    st.markdown(f"""
-    <div style="background: linear-gradient(90deg, #1B5E20, #388E3C); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            📈 Aapka Discipline Score: <span style="color: #FFD700;">{percentage}%</span>
-        </h3>
-    </div>
-    """, unsafe_allow_html=True)
+    percentage = int((sum(tasks) / len(tasks)) * 100)
 
     st.progress(percentage)
-
     if percentage == 100:
-        st.success("🟢 100% APPROVED: Excellent! Sab kuch perfect hai. Aap apna trade execute kar sakte hain. Happy Trading!")
-        st.balloons()
+        st.success("🟢 100% APPROVED: Sab kuch perfect hai. Aap apna trade execute kar sakti hain!")
     else:
-        st.error("🔴 DO NOT TRADE! Aapka homework ya rules abhi poore nahi hain.")
-        st.markdown(f"<p style='font-size: 19px; font-weight: bold; color: #B71C1C;'>👉 Trade lene ke liye abhi <strong>{total - completed} rules</strong> check karna bache hain.</p>", unsafe_allow_html=True)
-
-    st.write("")
+        st.error(f"🔴 DO NOT TRADE! Abhi rules check karna bache hain.")
 
 # ==========================================
-# STAGE 3: TARGET ENFORCER & EXACT TAX CALCULATOR
+# STAGE 3: TARGET ENFORCER & TAX CALCULATOR
 # ==========================================
 if "3" in allowed_stages:
+    st.write("")
     st.markdown("""
-    <div style="background: linear-gradient(90deg, #004D40, #00796B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
+    <div style="background: linear-gradient(90deg, #004D40, #00796B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px;">
+        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">🛡️ STAGE 3: Target Enforcer & Position Sizing</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    with st.expander("🧮 Calculate Safe Lots, Exact Taxes & Target", expanded=True):
+        c1, c2 = st.columns(2)
+        with c1:
+            risk_amount = st.number_input("Max Loss (₹)", min_value=100, value=1000, step=100)
+            sl_points = st.number_input("Stop Loss (Points)", min_value=1, value=20, step=1)
+        with c2:
+            lot_size = st.number_input("Current Lot Size", min_value=1, value=15, step=1)
+            buy_price = st.number_input("Option Buy Price", min_value=1, value=300, step=1)
+        if st.button("Calculate Exact Tax & Target"):
+            ideal_qty = int(risk_amount / sl_points)
+            safe_lots = ideal_qty // lot_size
+            final_qty = safe_lots * lot_size
+            if safe_lots > 0:
+                target_points = sl_points * 2
+                sell_price = buy_price + target_points
+                total_turnover = (buy_price * final_qty) + (sell_price * final_qty)
+                total_taxes = round(40 + (sell_price * final_qty * 0.001) + (total_turnover * 0.0003503) + ((40 + (total_turnover * 0.0003503)) * 0.18), 2)
+                net_profit = round((target_points * final_qty) - total_taxes, 2)
+                st.info(f"✅ Safe Limit: **{safe_lots} Lots** (**{final_qty} Qty**) | Max Loss: **₹{risk_amount}**")
+                bc1, bc2, bc3 = st.columns(3)
+                bc1.metric("Brokerage + Taxes", f"₹{total_taxes}")
+                bc2.metric("Target (1:2)", f"₹{sell_price}")
+                bc3.metric("Net Profit", f"₹{net_profit}")
+            else:
+                st.error("🚨 DO NOT TRADE! Stop Loss aapke Risk limit se bada hai.")
+
+# ==========================================
+# STAGE 4: MARKET MAUSAM & DIARY
+# ==========================================
+if "4" in allowed_stages:
+    st.write("")
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #0277BD, #00ACC1); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px;">
+        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">🌤️ STAGE 4: Market Mausam & Emotion Tracker</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    col3, col4 = st.columns(2)
+    with col3:
+        weather = st.radio("Market Direction:", ["☀️ Clear (Strong Trend)", "🌫️ Foggy (Sideways)", "🌧️ Stormy (Volatile)"])
+    with col4:
+        with st.form("trade_journal"):
+            trade_pnl = st.number_input("Trade ka PnL (₹)", value=0)
+            reason = st.selectbox("Reason:", ["Rule Followed", "FOMO", "Revenge", "Boredom"])
+            if st.form_submit_button("💾 Save Trade Record"):
+                st.success(f"Saved! PnL: ₹{trade_pnl} ({reason})")
+
+# ==========================================
+# STAGE 5: LIVE TRADE SCREEN & VOICE RECORDER (Aapka Original Bada Code)
+# ==========================================
+if "5" in allowed_stages:
+    st.write("")
+    st.markdown("""
+    <div style="background: linear-gradient(90deg, #880E4F, #C2185B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
         <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🛡️ STAGE 3: Target Enforcer & Position Sizing
+            🎥 STAGE 5: Live Trade Screen & Voice Recorder
         </h3>
-        <p style="color: #E0F2F1; font-size: 16px; margin: 4px 0 0 0;">
-            Trade ka Buy/Sell button dabane se pehle Exact Brokerage aur apna Target check karein:
+        <p style="color: #FCE4EC; font-size: 16px; margin: 4px 0 0 0;">
+            Apni pasand ka Audio Mode chunein (Sirf Mic, Sirf Computer, ya Dono Ek Sath) aur Live Trade record karein:
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    with st.expander("🧮 Calculate Safe Lots, Exact Taxes & Target", expanded=True):
-        col1, col2 = st.columns(2)
+    components.html("""
+    <div style="background: linear-gradient(135deg, #E8F5E9, #FFF8E1); border: 2px solid #2E7D32; border-radius: 14px; padding: 18px; text-align: center; font-family: sans-serif; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
         
-        with col1:
-            risk_amount = st.number_input("Max Loss (₹)", min_value=100, value=1000, step=100)
-            sl_points = st.number_input("Stop Loss (Points)", min_value=1, value=20, step=1)
-        with col2:
-            lot_size = st.number_input("Current Lot Size", min_value=1, value=15, step=1)
-            buy_price = st.number_input("Option Buy Price (Premium)", min_value=1, value=300, step=1)
+        <!-- Audio Mode Selector -->
+        <div style="margin-bottom: 14px;">
+            <div style="font-size: 17px; font-weight: 800; color: #1B5E20; margin-bottom: 8px;">
+                🎧 Step 1: Aawaz (Audio) Ka Option Chunein:
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 620px; margin: 0 auto;">
+                <label style="background: #FFFFFF; border: 2px solid #2E7D32; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #1B5E20; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <input type="radio" name="audioMode" value="both" checked style="transform: scale(1.2);">
+                    🎙️+💻 Dono Ek Sath (Mic + PC)
+                </label>
+                <label style="background: #FFFFFF; border: 2px solid #1565C0; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #0D47A1; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <input type="radio" name="audioMode" value="mic" style="transform: scale(1.2);">
+                    🎙️ Sirf Meri Aawaz (Mic Only)
+                </label>
+                <label style="background: #FFFFFF; border: 2px solid #6A1B9A; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #4A148C; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <input type="radio" name="audioMode" value="system" style="transform: scale(1.2);">
+                    💻 Sirf Computer Ki Aawaz
+                </label>
+                <label style="background: #FFFFFF; border: 2px solid #757575; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #424242; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                    <input type="radio" name="audioMode" value="none" style="transform: scale(1.2);">
+                    🔇 Bina Aawaz (Only Video)
+                </label>
+            </div>
+        </div>
+
+        <div id="status" style="font-size: 16px; font-weight: bold; color: #1B5E20; background: #C8E6C9; padding: 8px 12px; border-radius: 8px; margin-bottom: 14px;">
+            🟢 Ready to Record (Upar Aawaz chunein aur Start Recording dabayein)
+        </div>
         
-        if st.button("Calculate Exact Tax & Target"):
-            if sl_points > 0 and buy_price > 0:
-                ideal_qty = int(risk_amount / sl_points)
-                safe_lots = ideal_qty // lot_size
-                final_qty = safe_lots * lot_size
-                
-                if safe_lots > 0:
-                    st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**) | Max Loss Rule: **₹{risk_amount}**")
-                    
-                    target_points = sl_points * 2
-                    sell_price = buy_price + target_points
-                    
-                    buy_turnover = buy_price * final_qty
-                    sell_turnover = sell_price * final_qty
-                    total_turnover = buy_turnover + sell_turnover
-                    
-                    brokerage = 40
-                    stt = sell_turnover * 0.001
-                    exchange_charges = total_turnover * 0.0003503
-                    sebi_charges = total_turnover * 0.000001
-                    stamp_duty = buy_turnover * 0.
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
+            <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+                🔴 Start Recording
+            </button>
+            <button id="stopBtn" onclick="stopRecording()" style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+                ⏹️ Stop Recording
+            </button>
+            <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+                💾 Download Trade Video
+            </a>
+        </div>
+
+        <video id="preview" autoplay muted playsinline style="width: 100%; max-height: 200px; border-radius: 10px; border: 2px solid #1B5E20; display: none; background: #000; margin-top: 8px;"></video>
+    </div>
+
+    <script>
+    const store = window.parent || window;
+
+    function bindActiveRecording() {
+        const statusEl = document.getElementById('status');
+        const preview = document.getElementById('preview');
+        
+        if (store._pritikaRecorder) {
+            store._pritikaRecorder.onstop = function() { finalizeRecording(); };
+        }
+        if (store._pritikaDisplayStream && store._pritikaDisplayStream.getVideoTracks().length > 0) {
+            store._pritikaDisplayStream.getVideoTracks()[0].onended = function() { stopRecording(); };
+        }
+        if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
+            statusEl.innerHTML = store._pritikaStatusText || '🔴 LIVE RECORDING CHALU HAI...';
+            statusEl.style.color = '#B71C1C';
+            statusEl.style.background = '#FFCDD2';
+            if (store._pritikaDisplayStream) {
+                preview.srcObject = store._pritikaDisplayStream;
+                preview.style.display = 'block';
+            }
+        }
+    }
+
+    function finalizeRecording() {
+        const statusEl = document.getElementById('status');
+        const preview = document.getElementById('preview');
+        const downloadLink = document.getElementById('downloadLink');
+        
+        if (store._pritikaChunks && store._pritikaChunks.length > 0) {
+            const blob = new Blob(store._pritikaChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+            const filename = `Pritika_Trade_Recording_${now}.webm`;
+            
+            if (downloadLink) {
+                downloadLink.href = url; downloadLink.download = filename;
+                downloadLink.style.display = 'inline-block'; downloadLink.click();
+            }
+            if (statusEl) {
+                statusEl.innerHTML = '✅ Recording Complete & Video Downloaded!';
+                statusEl.style.color = '#0D47A1'; statusEl.style.background = '#BBDEFB';
+            }
+        } else if (statusEl) {
+            statusEl.innerHTML = '⏹️ Recording Ruk Gayi Hai.';
+            statusEl.style.color = '#1B5E20'; statusEl.style.background = '#C8E6C9';
+        }
+        if (preview) preview.style.display = 'none';
+    }
+
+    async function startRecording() {
+        const statusEl = document.getElementById('status');
+        const modeEl = document.querySelector('input[name="audioMode"]:checked');
+        const mode = modeEl ? modeEl.value : 'both';
+
+        try {
+            if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
+                stopRecording();
+            }
+            
+            const mediaDevices = (store.navigator && store.navigator.mediaDevices) ? store.navigator.mediaDevices : navigator.mediaDevices;
+            let micStream = null;
+            let displayStream = null;
+
+            if (mode === 'mic' || mode === 'both') {
+                try {
+                    micStream = await mediaDevices.getUserMedia({ audio: true, video: false });
+                } catch (micErr) {
+                    if (mode === 'mic') {
+                        statusEl.innerHTML = '⚠️ Mic Permission Denied!';
+                        return;
+                    }
+                }
+            }
+
+            const wantSystemAudio = (mode === 'system' || mode === 'both');
+            displayStream = await mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: wantSystemAudio });
+
+            const hasMic = micStream && micStream.getAudioTracks().length > 0;
+            const hasSys = displayStream && displayStream.getAudioTracks().length > 0;
+            const tracks = [...displayStream.getVideoTracks()];
+
+            if (hasMic && hasSys) {
+                const AudioCtx = store.AudioContext || store.webkitAudioContext || window.AudioContext;
+                const audioCtx = new AudioCtx();
+                if (audioCtx.state === 'suspended') await audioCtx.resume();
+                const dest = audioCtx.createMediaStreamDestination();
+                audioCtx.createMediaStreamSource(displayStream).connect(dest);
+                audioCtx.createMediaStreamSource(micStream).connect(dest);
+                tracks.push(...dest.stream.getAudioTracks());
+                store._pritikaAudioCtx = audioCtx;
+                store._pritikaStatusText = '🔴 LIVE RECORDING: 🎙️ Meri Aawaz + 💻 Computer Aawaz DONO ON Hain!';
+            } else if (hasMic) {
+                tracks.push(...micStream.getAudioTracks());
+                store._pritikaStatusText = '🔴 LIVE RECORDING: 🎙️ Meri Aawaz ON Hai';
+            } else if (hasSys) {
+                tracks.push(...displayStream.getAudioTracks());
+                store._pritikaStatusText = '🔴 LIVE RECORDING: 💻 Sirf Computer Ki Aawaz Record Ho Rahi Hai!';
+            } else {
+                store._pritikaStatusText = '🔴 LIVE RECORDING: 🔇 Bina Aawaz (Only Video) Record Ho Raha Hai!';
+            }
+
+            const combinedStream = new MediaStream(tracks);
+            store._pritikaDisplayStream = displayStream;
+            store._pritikaMicStream = micStream;
+            store._pritikaStream = combinedStream;
+            store._pritikaChunks = [];
+
+            let options = { mimeType: 'video/webm;codecs=vp8,opus' };
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) options = { mimeType: 'video/webm' };
+            
+            const recorder = new MediaRecorder(combinedStream, options);
+            store._pritikaRecorder = recorder;
+            recorder.ondataavailable = function(e) { if (e.data && e.data.size > 0) store._pritikaChunks.push(e.data); };
+            
+            bindActiveRecording();
+            recorder.start(1000);
+            document.getElementById('downloadLink').style.display = 'none';
+            
+        } catch (err) {
+            statusEl.innerHTML = '⚠️ Screen select karke Share dabayein!';
+            statusEl.style.color = '#E65100'; statusEl.style.background = '#FFE0B2';
+        }
+    }
+
+    function stopRecording() {
+        try {
+            if (store._pritikaRecorder) {
+                store._pritikaRecorder.onstop = function() { finalizeRecording(); };
+                if (store._pritikaRecorder.state !== 'inactive') store._pritikaRecorder.stop();
+                else finalizeRecording();
+            } else finalizeRecording();
+            
+            if (store._pritikaStream) store._pritikaStream.getTracks().forEach(t => t.stop());
+            if (store._pritikaDisplayStream) store._pritikaDisplayStream.getTracks().forEach(t => t.stop());
+            if (store._pritikaMicStream) store._pritikaMicStream.getTracks().forEach(t => t.stop());
+            if (store._pritikaAudioCtx && store._pritikaAudioCtx.state !== 'closed') store._pritikaAudioCtx.close();
+        } catch (e) { finalizeRecording(); }
+    }
+
+    bindActiveRecording();
+    </script>
+    """, height=430)
