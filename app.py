@@ -471,3 +471,128 @@ with col4:
                 st.success(f"Good Job! Rule follow kiya. PnL: ₹{trade_pnl}")
             else:
                 st.error(f"Rule Break! Isliye loss ya stress hua. PnL: ₹{trade_pnl}. Kal se galti nahi dohrani hai.")
+
+import streamlit.components.v1 as components
+
+# ==========================================
+# STAGE 5: LIVE TRADE SCREEN RECORDER
+# ==========================================
+st.write("")
+st.markdown("""
+<div style="background: linear-gradient(90deg, #880E4F, #C2185B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
+    <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
+        🎥 STAGE 5: Live Trade Screen Recorder
+    </h3>
+    <p style="color: #FCE4EC; font-size: 16px; margin: 4px 0 0 0;">
+        Apna Live Trade (Chart / Option Chain) record karein taki baad mein apni Entry aur Exit analyze kar sakein:
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+components.html("""
+<div style="background: linear-gradient(135deg, #E8F5E9, #FFF8E1); border: 2px solid #2E7D32; border-radius: 14px; padding: 18px; text-align: center; font-family: sans-serif; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+    <div id="status" style="font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 14px;">
+        🟢 Ready to Record (Click Start & Select Your Chart Tab or Entire Screen)
+    </div>
+    
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+        <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+            🔴 Start Screen Recording
+        </button>
+        <button id="stopBtn" onclick="stopRecording()" disabled style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: not-allowed; opacity: 0.5; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+            ⏹️ Stop Recording
+        </button>
+        <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+            💾 Download Trade Video
+        </a>
+    </div>
+
+    <video id="preview" autoplay muted playsinline style="width: 100%; max-height: 220px; border-radius: 10px; border: 2px solid #1B5E20; display: none; background: #000; margin-top: 10px;"></video>
+</div>
+
+<script>
+let mediaRecorder;
+let recordedChunks = [];
+let stream;
+
+async function startRecording() {
+    try {
+        const mediaDevices = (window.parent && window.parent.navigator && window.parent.navigator.mediaDevices) 
+                             ? window.parent.navigator.mediaDevices 
+                             : navigator.mediaDevices;
+                             
+        stream = await mediaDevices.getDisplayMedia({
+            video: { cursor: "always" },
+            audio: false
+        });
+        
+        const preview = document.getElementById('preview');
+        preview.srcObject = stream;
+        preview.style.display = 'block';
+        
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        
+        mediaRecorder.ondataavailable = function(e) {
+            if (e.data.size > 0) {
+                recordedChunks.push(e.data);
+            }
+        };
+        
+        mediaRecorder.onstop = function() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+            downloadLink.href = url;
+            downloadLink.download = `Pritika_Trade_Recording_${now}.webm`;
+            downloadLink.style.display = 'inline-block';
+            
+            document.getElementById('status').innerHTML = '✅ Recording Complete! Niche "Download Trade Video" par click karke save karein.';
+            document.getElementById('status').style.color = '#0D47A1';
+            preview.style.display = 'none';
+        };
+        
+        stream.getVideoTracks()[0].onended = function() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                stopRecording();
+            }
+        };
+        
+        mediaRecorder.start();
+        document.getElementById('status').innerHTML = '🔴 LIVE RECORDING CHALU HAI... (Apna Trade Execute Karein)';
+        document.getElementById('status').style.color = '#B71C1C';
+        
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('startBtn').style.opacity = '0.5';
+        document.getElementById('startBtn').style.cursor = 'not-allowed';
+        
+        document.getElementById('stopBtn').disabled = false;
+        document.getElementById('stopBtn').style.opacity = '1';
+        document.getElementById('stopBtn').style.cursor = 'pointer';
+        
+        document.getElementById('downloadLink').style.display = 'none';
+        
+    } catch (err) {
+        document.getElementById('status').innerHTML = '⚠️ Screen select nahi ki gayi ya permission cancel ho gayi.';
+        document.getElementById('status').style.color = '#E65100';
+    }
+}
+
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+    }
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('startBtn').style.opacity = '1';
+    document.getElementById('startBtn').style.cursor = 'pointer';
+    
+    document.getElementById('stopBtn').disabled = true;
+    document.getElementById('stopBtn').style.opacity = '0.5';
+    document.getElementById('stopBtn').style.cursor = 'not-allowed';
+}
+</script>
+""", height=360)
