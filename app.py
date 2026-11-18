@@ -199,13 +199,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 with st.popover("🏹 १. वीतरागभयक्रोधः (Na Lalach, Na Darr, Na Gussa)", use_container_width=True):
-    st.markdown("### **वीतरागभयक्रोधः** *(Adhyay 2, Shlok 56)*\n* **Sanskrit Arth:** Jo asakti, darr aur krodh se poori tarah mukt ho chuka hai.\n* **Trading Meaning:** Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.")
+    st.markdown("""
+    <div style="background-color: #FFF3E0; padding: 15px; border-radius: 10px; border-left: 6px solid #FF8C00;">
+        <h3 style="color: #BF360C; font-size: 24px; font-weight: 900; margin-top: 0;">वीतरागभयक्रोधः <span style="font-size: 16px; color: #5D4037;">(Adhyay 2, Shlok 56)</span></h3>
+        <p style="font-size: 19px; color: #3E2723; margin-bottom: 10px;"><b>Sanskrit Arth:</b> Jo asakti (attachment), darr aur krodh se poori tarah mukt ho chuka hai.</p>
+        <p style="font-size: 19px; color: #1B5E20; font-weight: bold; background-color: #E8F5E9; padding: 10px; border-radius: 8px;">🎯 Trading Meaning: Lalach, Darr aur Gussa trading ke sabse bade dushman hain. Inse mukt hokar apne pre-marked zones par strict discipline ke sath trade execute karein.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with st.popover("⚖️ २. कर्मण्येवाधिकारस्ते (Mera kaam sirf Rule follow karna hai...)", use_container_width=True):
-    st.markdown("### **कर्मण्येवाधिकारस्ते** *(Adhyay 2, Shlok 47)*\n* **Sanskrit Arth:** Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.\n* **Trading Meaning:** Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.")
+    st.markdown("""
+    <div style="background-color: #E3F2FD; padding: 15px; border-radius: 10px; border-left: 6px solid #1976D2;">
+        <h3 style="color: #0D47A1; font-size: 24px; font-weight: 900; margin-top: 0;">कर्मण्येवाधिकारस्ते <span style="font-size: 16px; color: #37474F;">(Adhyay 2, Shlok 47)</span></h3>
+        <p style="font-size: 19px; color: #3E2723; margin-bottom: 10px;"><b>Sanskrit Arth:</b> Tumhara adhikar sirf karm karne par hai, uske phalon par kabhi nahi.</p>
+        <p style="font-size: 19px; color: #0D47A1; font-weight: bold; background-color: #E1F5FE; padding: 10px; border-radius: 8px;">🎯 Trading Meaning: Aapka control sirf rules follow karne aur risk management par hai. Profit market ka prasad hai, aap sirf apne process par dhyan dein.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with st.popover("⚔️ ३. युद्धाय कृतनिश्चयः (Ek Yoddha ki tarah bina emotions ke...)", use_container_width=True):
-    st.markdown("### **युद्धाय कृतनिश्चयः** *(Adhyay 2, Shlok 38)*\n* **Sanskrit Arth:** Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.\n* **Trading Meaning:** Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.")
+    st.markdown("""
+    <div style="background-color: #FCE4EC; padding: 15px; border-radius: 10px; border-left: 6px solid #C2185B;">
+        <h3 style="color: #880E4F; font-size: 24px; font-weight: 900; margin-top: 0;">युद्धाय कृतनिश्चयः <span style="font-size: 16px; color: #4E342E;">(Adhyay 2, Shlok 38)</span></h3>
+        <p style="font-size: 19px; color: #3E2723; margin-bottom: 10px;"><b>Sanskrit Arth:</b> Sukh-dukh aur labh-hani ko saman samajh kar yuddh ke liye taiyar ho jao.</p>
+        <p style="font-size: 19px; color: #B71C1C; font-weight: bold; background-color: #FFEBEE; padding: 10px; border-radius: 8px;">🎯 Trading Meaning: Market ek jang ka maidan hai. Profit aur loss dono ko barabar accept karte hue bina kisi emotional baggage ke apne setup ka wait karein.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("""
 <div style="background: linear-gradient(90deg, #E8F5E9, #C8E6C9); padding: 16px 20px; border-radius: 12px; border: 2px solid #2E7D32; margin: 15px 0; text-align: center;">
