@@ -144,9 +144,7 @@ div[data-testid="stForm"] {
 # ==============================================================================
 # 🔒 SMART 4-DIGIT PASSWORD, VALIDITY & STAGE-LIMIT ADMIN SYSTEM
 # ==============================================================================
-# 👇 Aap apna shuruati Master Admin Password yahan quotes (" ") mein rakh sakti hain:
 DEFAULT_ADMIN_PASS = "7777"
-
 DB_FILE = "tracker_access_db.json"
 IST = timezone(timedelta(hours=5, minutes=30))
 
@@ -170,7 +168,7 @@ def save_db(db):
 db = get_memory_db()
 
 def verify_pin(user_input):
-    pin = user_input.strip()
+    pin = str(user_input).strip()
     if not pin:
         return False, "", False, []
     
@@ -206,8 +204,8 @@ if not is_valid:
         </h1>
     </div>
     """, unsafe_allow_html=True)
-    st.info("🔑 Is app ko kholne ke liye apna **4-Digit Password** dalein.")
-    input_pass = st.text_input("Enter 4-Digit Password:", type="password", max_chars=20, placeholder="Example: 4829")
+    st.info("🔑 Is app ko kholne ke liye apna **4-Digit Password** dalein (Admin Default: **7777**).")
+    input_pass = st.text_input("Enter 4-Digit Password:", type="password", max_chars=20, placeholder="Example: 7777")
     if st.button("🔓 Unlock App"):
         ok, msg, adm, stg = verify_pin(input_pass)
         if ok:
@@ -401,7 +399,6 @@ with col2:
 
 st.write("")
 
-# Default states for checkboxes when Stage 1 or 2 is hidden
 pm1 = pm2 = pm3 = pm4 = False
 lm1 = lm2 = lm3 = lm4 = False
 
@@ -467,7 +464,7 @@ if "1" in allowed_stages:
     st.write("")
 
 # ==========================================
-# STAGE 2: LIVE MARKET ROUTINE & SCORE
+# STAGE 2: LIVE MARKET ROUTINE
 # ==========================================
 if "2" in allowed_stages:
     st.markdown("""
@@ -489,7 +486,6 @@ if "2" in allowed_stages:
 
     lm4 = st.checkbox("Rule 4: Main bina kisi Revenge ke, bilkul shant dimaag se trade le rahi hoon.")
 
-    # Calculate Progress dynamically based on active stages
     tasks = [pm1, pm2, pm3, pm4, lm1, lm2, lm3, lm4] if "1" in allowed_stages else [lm1, lm2, lm3, lm4]
     completed = sum(tasks)
     total = len(tasks)
@@ -551,364 +547,15 @@ if "3" in allowed_stages:
                 if safe_lots > 0:
                     st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**) | Max Loss Rule: **₹{risk_amount}**")
                     
-                    # ---- EXACT BROKERAGE & TAX CALCULATION (NSE OPTIONS) ----
-                    target_points = sl_points * 2  # 1:2 Risk Reward Ratio
+                    target_points = sl_points * 2
                     sell_price = buy_price + target_points
                     
                     buy_turnover = buy_price * final_qty
                     sell_turnover = sell_price * final_qty
                     total_turnover = buy_turnover + sell_turnover
                     
-                    # 1. Brokerage (Dhan Standard: ₹40 round-trip per executed order)
                     brokerage = 40
-                    
-                    # 2. STT (Oct 2024 Rule: 0.1% on Sell Turnover for Options)
                     stt = sell_turnover * 0.001
-                    
-                    # 3. Exchange Charges (NSE Options: 0.03503% on Total Turnover)
                     exchange_charges = total_turnover * 0.0003503
-                    
-                    # 4. SEBI Charges (0.0001% on Total Turnover)
                     sebi_charges = total_turnover * 0.000001
-                    
-                    # 5. Stamp Duty (0.003% on Buy Turnover)
-                    stamp_duty = buy_turnover * 0.00003
-                    
-                    # 6. GST (18% on Brokerage + Exchange + SEBI)
-                    gst = (brokerage + exchange_charges + sebi_charges) * 0.18
-                    
-                    total_taxes = round(brokerage + stt + exchange_charges + sebi_charges + stamp_duty + gst, 2)
-                    gross_profit = target_points * final_qty
-                    net_profit = round(gross_profit - total_taxes, 2)
-                    
-                    st.markdown("### 💸 Exact Govt. Tax & Brokerage Hisaab")
-                    bc1, bc2, bc3 = st.columns(3)
-                    bc1.metric("Brokerage + All Taxes", f"₹{total_taxes}")
-                    bc2.metric("Target (1:2)", f"{target_points} Pts (at ₹{sell_price})")
-                    bc3.metric("Net Profit (In Hand)", f"₹{net_profit}")
-                    
-                    st.warning(f"🚨 **TARGET ENFORCER:** Aapko trade strictly **₹{sell_price}** par hi bechna hai. Sarkar (STT, GST) aur Broker aapse iss trade par **₹{total_taxes}** tax katenge. Agar chhote profit mein nikal gaye, toh tax bharne ke baad jeb mein kuch nahi bachega. **Hold till Target!**")
-                    
-                else:
-                    st.error("🚨 DO NOT TRADE! Aapka Stop Loss itna bada hai ki is Risk limit mein 1 Lot bhi nahi aayega.")
-
-    st.write("")
-
-# ==========================================
-# STAGE 4: MARKET MAUSAM & DIARY
-# ==========================================
-if "4" in allowed_stages:
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #0277BD, #00ACC1); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🌤️ STAGE 4: Market Mausam & Emotion Tracker
-        </h3>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col3, col4 = st.columns(2)
-
-    with col3:
-        st.markdown("""
-        <div style="background: #E1F5FE; padding: 12px; border-radius: 10px; border-left: 6px solid #0288D1; margin-bottom: 10px;">
-            <h4 style="color: #01579B; margin: 0; font-size: 22px; font-weight: 800;">🧭 Market Direction</h4>
-        </div>
-        """, unsafe_allow_html=True)
-        weather = st.radio("FII/DII Data ke hisaab se Market kaisa hai?", 
-                           ["☀️ Clear (Strong Bullish/Bearish)", "🌫️ Foggy (Sideways - Premium Decay)", "🌧️ Stormy (Highly Volatile)"])
-        
-        if "Clear" in weather:
-            st.success("Aap normal quantity ke sath pre-marked zone par trade le sakti hain.")
-        elif "Foggy" in weather:
-            st.warning("Option Buyers door rahein! Aaj premium decay hoga. No Trading Day.")
-        else:
-            st.error("Market bohot volatile hai. Quantity AADHI (Half) kar dein!")
-
-    with col4:
-        st.markdown("""
-        <div style="background: #F3E5F5; padding: 12px; border-radius: 10px; border-left: 6px solid #7B1FA2; margin-bottom: 10px;">
-            <h4 style="color: #4A148C; margin: 0; font-size: 22px; font-weight: 800;">📖 Digital Trade Diary</h4>
-        </div>
-        """, unsafe_allow_html=True)
-        with st.form("trade_journal"):
-            trade_pnl = st.number_input("Trade ka Profit/Loss (₹)", value=0)
-            reason = st.selectbox("Trade lene ka Reason kya tha?", 
-                                  ["Zone Entry (Rule Followed)", "FOMO (Jaldbaazi)", "Revenge (Gussa)", "Boredom"])
-            mindset = st.select_slider("Trade lete time Mindset kaisa tha?", 
-                                       options=["Bohot Shant", "Normal", "Dara Hua", "Gusse Mein"])
-            
-            submitted = st.form_submit_button("💾 Save Trade Record")
-            if submitted:
-                if "Rule Followed" in reason:
-                    st.success(f"Good Job! Rule follow kiya. PnL: ₹{trade_pnl}")
-                else:
-                    st.error(f"Rule Break! Isliye loss ya stress hua. PnL: ₹{trade_pnl}. Kal se galti nahi dohrani hai.")
-
-# ==========================================
-# STAGE 5: LIVE TRADE SCREEN + MULTI-AUDIO RECORDER
-# ==========================================
-if "5" in allowed_stages:
-    st.write("")
-    st.markdown("""
-    <div style="background: linear-gradient(90deg, #880E4F, #C2185B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
-        <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
-            🎥 STAGE 5: Live Trade Screen & Voice Recorder
-        </h3>
-        <p style="color: #FCE4EC; font-size: 16px; margin: 4px 0 0 0;">
-            Apni pasand ka Audio Mode chunein (Sirf Mic, Sirf Computer, ya Dono Ek Sath) aur Live Trade record karein:
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    components.html("""
-    <div style="background: linear-gradient(135deg, #E8F5E9, #FFF8E1); border: 2px solid #2E7D32; border-radius: 14px; padding: 18px; text-align: center; font-family: sans-serif; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-        
-        <!-- Audio Mode Selector -->
-        <div style="margin-bottom: 14px;">
-            <div style="font-size: 17px; font-weight: 800; color: #1B5E20; margin-bottom: 8px;">
-                🎧 Step 1: Aawaz (Audio) Ka Option Chunein:
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 620px; margin: 0 auto;">
-                <label style="background: #FFFFFF; border: 2px solid #2E7D32; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #1B5E20; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                    <input type="radio" name="audioMode" value="both" checked style="transform: scale(1.2);">
-                    🎙️+💻 Dono Ek Sath (Mic + PC)
-                </label>
-                <label style="background: #FFFFFF; border: 2px solid #1565C0; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #0D47A1; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                    <input type="radio" name="audioMode" value="mic" style="transform: scale(1.2);">
-                    🎙️ Sirf Meri Aawaz (Mic Only)
-                </label>
-                <label style="background: #FFFFFF; border: 2px solid #6A1B9A; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #4A148C; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                    <input type="radio" name="audioMode" value="system" style="transform: scale(1.2);">
-                    💻 Sirf Computer Ki Aawaz
-                </label>
-                <label style="background: #FFFFFF; border: 2px solid #757575; border-radius: 10px; padding: 10px; cursor: pointer; font-weight: bold; color: #424242; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                    <input type="radio" name="audioMode" value="none" style="transform: scale(1.2);">
-                    🔇 Bina Aawaz (Only Video)
-                </label>
-            </div>
-        </div>
-
-        <div id="status" style="font-size: 16px; font-weight: bold; color: #1B5E20; background: #C8E6C9; padding: 8px 12px; border-radius: 8px; margin-bottom: 14px;">
-            🟢 Ready to Record (Upar Aawaz chunein aur Start Recording dabayein)
-        </div>
-        
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;">
-            <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
-                🔴 Start Recording
-            </button>
-            <button id="stopBtn" onclick="stopRecording()" style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
-                ⏹️ Stop Recording
-            </button>
-            <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 17px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
-                💾 Download Trade Video
-            </a>
-        </div>
-
-        <video id="preview" autoplay muted playsinline style="width: 100%; max-height: 200px; border-radius: 10px; border: 2px solid #1B5E20; display: none; background: #000; margin-top: 8px;"></video>
-    </div>
-
-    <script>
-    const store = window.parent || window;
-
-    function bindActiveRecording() {
-        const statusEl = document.getElementById('status');
-        const preview = document.getElementById('preview');
-        
-        if (store._pritikaRecorder) {
-            store._pritikaRecorder.onstop = function() {
-                finalizeRecording();
-            };
-        }
-        if (store._pritikaDisplayStream && store._pritikaDisplayStream.getVideoTracks().length > 0) {
-            store._pritikaDisplayStream.getVideoTracks()[0].onended = function() {
-                stopRecording();
-            };
-        }
-        if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
-            statusEl.innerHTML = store._pritikaStatusText || '🔴 LIVE RECORDING CHALU HAI...';
-            statusEl.style.color = '#B71C1C';
-            statusEl.style.background = '#FFCDD2';
-            if (store._pritikaDisplayStream) {
-                preview.srcObject = store._pritikaDisplayStream;
-                preview.style.display = 'block';
-            }
-        }
-    }
-
-    function finalizeRecording() {
-        const statusEl = document.getElementById('status');
-        const preview = document.getElementById('preview');
-        const downloadLink = document.getElementById('downloadLink');
-        
-        if (store._pritikaChunks && store._pritikaChunks.length > 0) {
-            const blob = new Blob(store._pritikaChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
-            const filename = `Pritika_Trade_Recording_${now}.webm`;
-            
-            if (downloadLink) {
-                downloadLink.href = url;
-                downloadLink.download = filename;
-                downloadLink.style.display = 'inline-block';
-                downloadLink.click();
-            }
-            if (statusEl) {
-                statusEl.innerHTML = '✅ Recording Complete & Video Downloaded!';
-                statusEl.style.color = '#0D47A1';
-                statusEl.style.background = '#BBDEFB';
-            }
-        } else if (statusEl) {
-            statusEl.innerHTML = '⏹️ Recording Ruk Gayi Hai.';
-            statusEl.style.color = '#1B5E20';
-            statusEl.style.background = '#C8E6C9';
-        }
-        if (preview) {
-            preview.style.display = 'none';
-        }
-    }
-
-    async function startRecording() {
-        const statusEl = document.getElementById('status');
-        const modeEl = document.querySelector('input[name="audioMode"]:checked');
-        const mode = modeEl ? modeEl.value : 'both';
-
-        try {
-            if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
-                stopRecording();
-            }
-            
-            const mediaDevices = (store.navigator && store.navigator.mediaDevices) 
-                                 ? store.navigator.mediaDevices 
-                                 : navigator.mediaDevices;
-
-            let micStream = null;
-            let displayStream = null;
-
-            // 1. Agar Mic chahiye (Mic Only ya Both) toh pehle Mic on karein
-            if (mode === 'mic' || mode === 'both') {
-                try {
-                    micStream = await mediaDevices.getUserMedia({
-                        audio: {
-                            echoCancellation: true,
-                            noiseSuppression: true,
-                            autoGainControl: true
-                        },
-                        video: false
-                    });
-                } catch (micErr) {
-                    console.warn("Mic error:", micErr);
-                    if (mode === 'mic') {
-                        statusEl.innerHTML = '⚠️ Mic Permission Denied! Browser mein upar Lock/Camera icon par click karke Microphone Allow karein.';
-                        statusEl.style.color = '#B71C1C';
-                        statusEl.style.background = '#FFCDD2';
-                        return;
-                    }
-                }
-            }
-
-            // 2. Screen Capture (+ System Audio agar 'system' ya 'both' chuna hai)
-            const wantSystemAudio = (mode === 'system' || mode === 'both');
-            displayStream = await mediaDevices.getDisplayMedia({
-                video: { cursor: "always" },
-                audio: wantSystemAudio
-            });
-
-            const hasMic = micStream && micStream.getAudioTracks().length > 0;
-            const hasSys = displayStream && displayStream.getAudioTracks().length > 0;
-
-            // 3. Audio Tracks Mix Karein
-            const tracks = [...displayStream.getVideoTracks()];
-
-            if (hasMic && hasSys) {
-                const AudioCtx = store.AudioContext || store.webkitAudioContext || window.AudioContext;
-                const audioCtx = new AudioCtx();
-                if (audioCtx.state === 'suspended') {
-                    await audioCtx.resume();
-                }
-                const dest = audioCtx.createMediaStreamDestination();
-                audioCtx.createMediaStreamSource(displayStream).connect(dest);
-                audioCtx.createMediaStreamSource(micStream).connect(dest);
-                tracks.push(...dest.stream.getAudioTracks());
-                store._pritikaAudioCtx = audioCtx;
-                store._pritikaStatusText = '🔴 LIVE RECORDING: 🎙️ Meri Aawaz + 💻 Computer Aawaz DONO ON Hain!';
-            } else if (hasMic) {
-                tracks.push(...micStream.getAudioTracks());
-                store._pritikaStatusText = (mode === 'both')
-                    ? '🔴 LIVE RECORDING: 🎙️ Meri Aawaz ON Hai (Popup mein Computer Audio tick nahi kiya gaya)'
-                    : '🔴 LIVE RECORDING: 🎙️ Sirf Meri Aawaz (Mic) Record Ho Rahi Hai!';
-            } else if (hasSys) {
-                tracks.push(...displayStream.getAudioTracks());
-                store._pritikaStatusText = '🔴 LIVE RECORDING: 💻 Sirf Computer Ki Aawaz Record Ho Rahi Hai!';
-            } else {
-                store._pritikaStatusText = (mode === 'system')
-                    ? '⚠️ Video Record Ho Raha Hai, par Computer Aawaz ke liye popup mein "Also share audio" tick karna zaroori hai!'
-                    : '🔴 LIVE RECORDING: 🔇 Bina Aawaz (Only Video) Record Ho Raha Hai!';
-            }
-
-            const combinedStream = new MediaStream(tracks);
-            
-            store._pritikaDisplayStream = displayStream;
-            store._pritikaMicStream = micStream;
-            store._pritikaStream = combinedStream;
-            store._pritikaChunks = [];
-
-            let options = { mimeType: 'video/webm;codecs=vp8,opus' };
-            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                options = { mimeType: 'video/webm' };
-            }
-            
-            const recorder = new MediaRecorder(combinedStream, options);
-            store._pritikaRecorder = recorder;
-            
-            recorder.ondataavailable = function(e) {
-                if (e.data && e.data.size > 0) {
-                    store._pritikaChunks.push(e.data);
-                }
-            };
-            
-            bindActiveRecording();
-            recorder.start(1000);
-            document.getElementById('downloadLink').style.display = 'none';
-            
-        } catch (err) {
-            statusEl.innerHTML = '⚠️ Screen select nahi ki gayi! Popup box mein screen par click karke "Share" dabayein.';
-            statusEl.style.color = '#E65100';
-            statusEl.style.background = '#FFE0B2';
-        }
-    }
-
-    function stopRecording() {
-        try {
-            if (store._pritikaRecorder) {
-                store._pritikaRecorder.onstop = function() {
-                    finalizeRecording();
-                };
-                if (store._pritikaRecorder.state !== 'inactive') {
-                    store._pritikaRecorder.stop();
-                } else {
-                    finalizeRecording();
-                }
-            } else {
-                finalizeRecording();
-            }
-            if (store._pritikaStream) {
-                store._pritikaStream.getTracks().forEach(track => track.stop());
-            }
-            if (store._pritikaDisplayStream) {
-                store._pritikaDisplayStream.getTracks().forEach(track => track.stop());
-            }
-            if (store._pritikaMicStream) {
-                store._pritikaMicStream.getTracks().forEach(track => track.stop());
-            }
-            if (store._pritikaAudioCtx && store._pritikaAudioCtx.state !== 'closed') {
-                store._pritikaAudioCtx.close();
-            }
-        } catch (e) {
-            finalizeRecording();
-        }
-    }
-
-    bindActiveRecording();
-    </script>
-    """, height=430)
+                    stamp_duty = buy_turnover * 0.
