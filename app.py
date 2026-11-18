@@ -475,7 +475,7 @@ with col4:
 import streamlit.components.v1 as components
 
 # ==========================================
-# STAGE 5: LIVE TRADE SCREEN RECORDER
+# STAGE 5: LIVE TRADE SCREEN RECORDER (FIXED)
 # ==========================================
 st.write("")
 st.markdown("""
@@ -499,7 +499,7 @@ components.html("""
         <button id="startBtn" onclick="startRecording()" style="background: linear-gradient(90deg, #1B5E20, #43A047); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
             🔴 Start Screen Recording
         </button>
-        <button id="stopBtn" onclick="stopRecording()" disabled style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: not-allowed; opacity: 0.5; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
+        <button id="stopBtn" onclick="stopRecording()" style="background: linear-gradient(90deg, #B71C1C, #E53935); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
             ⏹️ Stop Recording
         </button>
         <a id="downloadLink" style="display: none; background: linear-gradient(90deg, #0D47A1, #1976D2); color: white; border: 2px solid #FFD700; border-radius: 10px; padding: 12px 22px; font-size: 18px; font-weight: bold; text-decoration: none; box-shadow: 0px 3px 6px rgba(0,0,0,0.2);">
@@ -511,88 +511,120 @@ components.html("""
 </div>
 
 <script>
-let mediaRecorder;
-let recordedChunks = [];
-let stream;
+const store = window.parent || window;
+
+function bindActiveRecording() {
+    const statusEl = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    
+    if (store._pritikaRecorder) {
+        store._pritikaRecorder.onstop = function() {
+            finalizeRecording();
+        };
+    }
+    if (store._pritikaStream && store._pritikaStream.getVideoTracks().length > 0) {
+        store._pritikaStream.getVideoTracks()[0].onended = function() {
+            stopRecording();
+        };
+    }
+    if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
+        statusEl.innerHTML = '🔴 LIVE RECORDING CHALU HAI... (Rokne ke liye Stop Recording dabayein)';
+        statusEl.style.color = '#B71C1C';
+        if (store._pritikaStream) {
+            preview.srcObject = store._pritikaStream;
+            preview.style.display = 'block';
+        }
+    }
+}
+
+function finalizeRecording() {
+    const statusEl = document.getElementById('status');
+    const preview = document.getElementById('preview');
+    const downloadLink = document.getElementById('downloadLink');
+    
+    if (store._pritikaChunks && store._pritikaChunks.length > 0) {
+        const blob = new Blob(store._pritikaChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
+        const filename = `Pritika_Trade_Recording_${now}.webm`;
+        
+        if (downloadLink) {
+            downloadLink.href = url;
+            downloadLink.download = filename;
+            downloadLink.style.display = 'inline-block';
+            downloadLink.click();
+        }
+        if (statusEl) {
+            statusEl.innerHTML = '✅ Recording Complete & Video Downloaded! (Dobara save karne ke liye blue button dabayein)';
+            statusEl.style.color = '#0D47A1';
+        }
+    } else if (statusEl) {
+        statusEl.innerHTML = '⏹️ Recording Ruk Gayi Hai.';
+        statusEl.style.color = '#1B5E20';
+    }
+    if (preview) {
+        preview.style.display = 'none';
+    }
+}
 
 async function startRecording() {
     try {
-        const mediaDevices = (window.parent && window.parent.navigator && window.parent.navigator.mediaDevices) 
-                             ? window.parent.navigator.mediaDevices 
+        if (store._pritikaRecorder && store._pritikaRecorder.state === 'recording') {
+            stopRecording();
+        }
+        const mediaDevices = (store.navigator && store.navigator.mediaDevices) 
+                             ? store.navigator.mediaDevices 
                              : navigator.mediaDevices;
                              
-        stream = await mediaDevices.getDisplayMedia({
+        const stream = await mediaDevices.getDisplayMedia({
             video: { cursor: "always" },
             audio: false
         });
         
-        const preview = document.getElementById('preview');
-        preview.srcObject = stream;
-        preview.style.display = 'block';
+        store._pritikaStream = stream;
+        store._pritikaChunks = [];
         
-        recordedChunks = [];
-        mediaRecorder = new MediaRecorder(stream);
+        const recorder = new MediaRecorder(stream);
+        store._pritikaRecorder = recorder;
         
-        mediaRecorder.ondataavailable = function(e) {
-            if (e.data.size > 0) {
-                recordedChunks.push(e.data);
+        recorder.ondataavailable = function(e) {
+            if (e.data && e.data.size > 0) {
+                store._pritikaChunks.push(e.data);
             }
         };
         
-        mediaRecorder.onstop = function() {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const downloadLink = document.getElementById('downloadLink');
-            const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, "-");
-            downloadLink.href = url;
-            downloadLink.download = `Pritika_Trade_Recording_${now}.webm`;
-            downloadLink.style.display = 'inline-block';
-            
-            document.getElementById('status').innerHTML = '✅ Recording Complete! Niche "Download Trade Video" par click karke save karein.';
-            document.getElementById('status').style.color = '#0D47A1';
-            preview.style.display = 'none';
-        };
-        
-        stream.getVideoTracks()[0].onended = function() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                stopRecording();
-            }
-        };
-        
-        mediaRecorder.start();
-        document.getElementById('status').innerHTML = '🔴 LIVE RECORDING CHALU HAI... (Apna Trade Execute Karein)';
-        document.getElementById('status').style.color = '#B71C1C';
-        
-        document.getElementById('startBtn').disabled = true;
-        document.getElementById('startBtn').style.opacity = '0.5';
-        document.getElementById('startBtn').style.cursor = 'not-allowed';
-        
-        document.getElementById('stopBtn').disabled = false;
-        document.getElementById('stopBtn').style.opacity = '1';
-        document.getElementById('stopBtn').style.cursor = 'pointer';
-        
+        bindActiveRecording();
+        recorder.start(1000);
         document.getElementById('downloadLink').style.display = 'none';
         
     } catch (err) {
-        document.getElementById('status').innerHTML = '⚠️ Screen select nahi ki gayi ya permission cancel ho gayi.';
+        document.getElementById('status').innerHTML = '⚠️ Screen select nahi ki gayi! Popup box mein pehle screen ki photo par click karein, phir "Share" dabayein.';
         document.getElementById('status').style.color = '#E65100';
     }
 }
 
 function stopRecording() {
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-        mediaRecorder.stop();
+    try {
+        if (store._pritikaRecorder) {
+            store._pritikaRecorder.onstop = function() {
+                finalizeRecording();
+            };
+            if (store._pritikaRecorder.state !== 'inactive') {
+                store._pritikaRecorder.stop();
+            } else {
+                finalizeRecording();
+            }
+        } else {
+            finalizeRecording();
+        }
+        if (store._pritikaStream) {
+            store._pritikaStream.getTracks().forEach(track => track.stop());
+        }
+    } catch (e) {
+        finalizeRecording();
     }
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-    }
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('startBtn').style.opacity = '1';
-    document.getElementById('startBtn').style.cursor = 'pointer';
-    
-    document.getElementById('stopBtn').disabled = true;
-    document.getElementById('stopBtn').style.opacity = '0.5';
-    document.getElementById('stopBtn').style.cursor = 'not-allowed';
 }
+
+bindActiveRecording();
 </script>
 """, height=360)
