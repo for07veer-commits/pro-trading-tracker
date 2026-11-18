@@ -313,4 +313,161 @@ if lm1:
 lm2 = st.checkbox("Rule 2: Entry lene se pehle maine fix Stop Loss (SL) aur Target soch liya hai.")
 lm3 = st.checkbox("Rule 3: Aaj ki Max 3 Trades ki limit abhi bachi hui hai.")
 if lm3:
-    st.warning("📌 IMP NOTE: Yaad rakhein - Sirf 3 Goliya! Pehle 2 trade loss mein gaye toh turant screen band karni hai
+    st.warning("📌 IMP NOTE: Yaad rakhein - Sirf 3 Goliya! Pehle 2 trade loss mein gaye toh turant screen band karni hai.")
+
+lm4 = st.checkbox("Rule 4: Main bina kisi Revenge ke, bilkul shant dimaag se trade le rahi hoon.")
+
+# Calculate Progress
+tasks = [pm1, pm2, pm3, pm4, lm1, lm2, lm3, lm4]
+completed = sum(tasks)
+total = len(tasks)
+percentage = int((completed / total) * 100)
+
+st.write("")
+
+# ==========================================
+# DISPLAY SCORE & PROGRESS BAR
+# ==========================================
+st.markdown(f"""
+<div style="background: linear-gradient(90deg, #1B5E20, #388E3C); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
+    <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
+        📈 Aapka Discipline Score: <span style="color: #FFD700;">{percentage}%</span>
+    </h3>
+</div>
+""", unsafe_allow_html=True)
+
+st.progress(percentage)
+
+if percentage == 100:
+    st.success("🟢 100% APPROVED: Excellent! Sab kuch perfect hai. Aap apna trade execute kar sakte hain. Happy Trading!")
+    st.balloons()
+else:
+    st.error("🔴 DO NOT TRADE! Aapka homework ya rules abhi poore nahi hain.")
+    st.markdown(f"<p style='font-size: 19px; font-weight: bold; color: #B71C1C;'>👉 Trade lene ke liye abhi <strong>{total - completed} rules</strong> check karna bache hain.</p>", unsafe_allow_html=True)
+
+st.write("")
+
+# ==========================================
+# STAGE 3: TARGET ENFORCER & EXACT TAX CALCULATOR
+# ==========================================
+st.markdown("""
+<div style="background: linear-gradient(90deg, #004D40, #00796B); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 12px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
+    <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
+        🛡️ STAGE 3: Target Enforcer & Position Sizing
+    </h3>
+    <p style="color: #E0F2F1; font-size: 16px; margin: 4px 0 0 0;">
+        Trade ka Buy/Sell button dabane se pehle Exact Brokerage aur apna Target check karein:
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+with st.expander("🧮 Calculate Safe Lots, Exact Taxes & Target", expanded=True):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        risk_amount = st.number_input("Max Loss (₹)", min_value=100, value=1000, step=100)
+        sl_points = st.number_input("Stop Loss (Points)", min_value=1, value=20, step=1)
+    with col2:
+        lot_size = st.number_input("Current Lot Size", min_value=1, value=15, step=1)
+        buy_price = st.number_input("Option Buy Price (Premium)", min_value=1, value=300, step=1)
+    
+    if st.button("Calculate Exact Tax & Target"):
+        if sl_points > 0 and buy_price > 0:
+            ideal_qty = int(risk_amount / sl_points)
+            safe_lots = ideal_qty // lot_size
+            final_qty = safe_lots * lot_size
+            
+            if safe_lots > 0:
+                st.info(f"✅ Safe Limit: **{safe_lots} Lots** (Total **{final_qty} Qty**) | Max Loss Rule: **₹{risk_amount}**")
+                
+                # ---- EXACT BROKERAGE & TAX CALCULATION (NSE OPTIONS) ----
+                target_points = sl_points * 2  # 1:2 Risk Reward Ratio
+                sell_price = buy_price + target_points
+                
+                buy_turnover = buy_price * final_qty
+                sell_turnover = sell_price * final_qty
+                total_turnover = buy_turnover + sell_turnover
+                
+                # 1. Brokerage (Dhan Standard: ₹40 round-trip per executed order)
+                brokerage = 40
+                
+                # 2. STT (Oct 2024 Rule: 0.1% on Sell Turnover for Options)
+                stt = sell_turnover * 0.001
+                
+                # 3. Exchange Charges (NSE Options: 0.03503% on Total Turnover)
+                exchange_charges = total_turnover * 0.0003503
+                
+                # 4. SEBI Charges (0.0001% on Total Turnover)
+                sebi_charges = total_turnover * 0.000001
+                
+                # 5. Stamp Duty (0.003% on Buy Turnover)
+                stamp_duty = buy_turnover * 0.00003
+                
+                # 6. GST (18% on Brokerage + Exchange + SEBI)
+                gst = (brokerage + exchange_charges + sebi_charges) * 0.18
+                
+                total_taxes = round(brokerage + stt + exchange_charges + sebi_charges + stamp_duty + gst, 2)
+                gross_profit = target_points * final_qty
+                net_profit = round(gross_profit - total_taxes, 2)
+                
+                st.markdown("### 💸 Exact Govt. Tax & Brokerage Hisaab")
+                bc1, bc2, bc3 = st.columns(3)
+                bc1.metric("Brokerage + All Taxes", f"₹{total_taxes}")
+                bc2.metric("Target (1:2)", f"{target_points} Pts (at ₹{sell_price})")
+                bc3.metric("Net Profit (In Hand)", f"₹{net_profit}")
+                
+                st.warning(f"🚨 **TARGET ENFORCER:** Aapko trade strictly **₹{sell_price}** par hi bechna hai. Sarkar (STT, GST) aur Broker aapse iss trade par **₹{total_taxes}** tax katenge. Agar chhote profit mein nikal gaye, toh tax bharne ke baad jeb mein kuch nahi bachega. **Hold till Target!**")
+                
+            else:
+                st.error("🚨 DO NOT TRADE! Aapka Stop Loss itna bada hai ki is Risk limit mein 1 Lot bhi nahi aayega.")
+
+st.write("")
+
+# ==========================================
+# STAGE 4: MARKET MAUSAM & DIARY
+# ==========================================
+st.markdown("""
+<div style="background: linear-gradient(90deg, #0277BD, #00ACC1); padding: 14px 20px; border-radius: 12px; border-left: 8px solid #FFD700; margin-bottom: 15px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);">
+    <h3 style="color: #FFFFFF; font-size: 26px; font-weight: 800; margin: 0;">
+        🌤️ STAGE 4: Market Mausam & Emotion Tracker
+    </h3>
+</div>
+""", unsafe_allow_html=True)
+
+col3, col4 = st.columns(2)
+
+with col3:
+    st.markdown("""
+    <div style="background: #E1F5FE; padding: 12px; border-radius: 10px; border-left: 6px solid #0288D1; margin-bottom: 10px;">
+        <h4 style="color: #01579B; margin: 0; font-size: 22px; font-weight: 800;">🧭 Market Direction</h4>
+    </div>
+    """, unsafe_allow_html=True)
+    weather = st.radio("FII/DII Data ke hisaab se Market kaisa hai?", 
+                       ["☀️ Clear (Strong Bullish/Bearish)", "🌫️ Foggy (Sideways - Premium Decay)", "🌧️ Stormy (Highly Volatile)"])
+    
+    if "Clear" in weather:
+        st.success("Aap normal quantity ke sath pre-marked zone par trade le sakti hain.")
+    elif "Foggy" in weather:
+        st.warning("Option Buyers door rahein! Aaj premium decay hoga. No Trading Day.")
+    else:
+        st.error("Market bohot volatile hai. Quantity AADHI (Half) kar dein!")
+
+with col4:
+    st.markdown("""
+    <div style="background: #F3E5F5; padding: 12px; border-radius: 10px; border-left: 6px solid #7B1FA2; margin-bottom: 10px;">
+        <h4 style="color: #4A148C; margin: 0; font-size: 22px; font-weight: 800;">📖 Digital Trade Diary</h4>
+    </div>
+    """, unsafe_allow_html=True)
+    with st.form("trade_journal"):
+        trade_pnl = st.number_input("Trade ka Profit/Loss (₹)", value=0)
+        reason = st.selectbox("Trade lene ka Reason kya tha?", 
+                              ["Zone Entry (Rule Followed)", "FOMO (Jaldbaazi)", "Revenge (Gussa)", "Boredom"])
+        mindset = st.select_slider("Trade lete time Mindset kaisa tha?", 
+                                   options=["Bohot Shant", "Normal", "Dara Hua", "Gusse Mein"])
+        
+        submitted = st.form_submit_button("💾 Save Trade Record")
+        if submitted:
+            if "Rule Followed" in reason:
+                st.success(f"Good Job! Rule follow kiya. PnL: ₹{trade_pnl}")
+            else:
+                st.error(f"Rule Break! Isliye loss ya stress hua. PnL: ₹{trade_pnl}. Kal se galti nahi dohrani hai.")
